@@ -1,0 +1,20 @@
+Smart Calendar
+	Upload schedule or import from CDCS
+	then narrate events and due dates to it
+	schedules time in empty spaces for guesstimate amount of time needed for projects,
+	readjusts scheduled work times with additions of events
+Movie list database app
+	Goodreads yet for movies
+	Make and store own reviews
+AI card game multiplayer
+	In Java, Sarah made it over summer
+	Make user accounts be game history
+
+Frameworks
+	Node.JS (Server main structure)
+	NPM (package manager)
+	MySQL (Database)
+	AJAX (API calls)
+	REST (API endpoints)
+	JSON (internally, have XML endpoints for API as well)
+	REACT (at the end)

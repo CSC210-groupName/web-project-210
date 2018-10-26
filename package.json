@@ -1,0 +1,15 @@
+{
+  "name": "csc210-project",
+  "version": "0.0.1",
+  "description": "",
+  "main": "main.js",
+  "dependencies": {
+    "mysql": "^2.16.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Matthew Sundberg",
+  "license": "ISC"
+}
