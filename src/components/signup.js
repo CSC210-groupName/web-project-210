@@ -11,18 +11,33 @@ class signup extends Component{
       password : ""
     };
 
+    this.hideDisplay={
+      display: "none"
+    };
+    this.showDisplay={
+      display: "block"
+    };
     this.SignupHandler=this.SignupHandler.bind(this);
   }
 
   SignupHandler(event){
     event.preventDefault();
     console.log(this.state);
-
+    //state here contains the value for submit, great place for validation
   }
 
+  showloginForm(){
+    //here button handling
+    document.getElementById("loginForm").style.display="block";
+    document.getElementById("signupForm").style.display="none";
+  }
+
+
+
   render() {
+
     return (
-      <div>
+      <div id="signupForm" style={this.hideDisplay}>
         <form onSubmit={this.SignupHandler}>
           <h3>User SignUp</h3>
           <label>UserName</label>
@@ -44,7 +59,7 @@ class signup extends Component{
           required />
           <br/>
           <input type="submit" value="SignUp"/>
-          <p>Already have a account? Login <input type="button" value="here"/></p>
+          <p>Already have a account? Login <input type="button" value="here" onClick={this.showloginForm}/></p>
         </form>
       </div>
     );

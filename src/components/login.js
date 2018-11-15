@@ -10,6 +10,13 @@ class login extends Component{
       password : ""
     };
 
+    this.hideDisplay={
+      display: "none"
+    };
+    this.showDisplay={
+      display: "block"
+    };
+
     this.LoginHandler=this.LoginHandler.bind(this);
   }
 
@@ -21,9 +28,15 @@ class login extends Component{
 
   }
 
+  showSignUpForm(){
+    //here button handling
+    document.getElementById("loginForm").style.display="none";
+    document.getElementById("signupForm").style.display="block";
+  }
+
   render() {
     return (
-      <div>
+      <div id="loginForm">
         <form onSubmit={this.LoginHandler}>
           <h3>User Login</h3>
           <label>UserName</label>
@@ -39,7 +52,7 @@ class login extends Component{
           required />
           <br/>
           <input type="submit" value="login"/>
-          <p>Don't have a account? SignUp <input type="button" value="here"/></p>
+          <p>Don't have a account? SignUp <input type="button" value="here" onClick={this.showSignUpForm}/></p>
         </form>
       </div>
     );
