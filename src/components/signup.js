@@ -7,6 +7,7 @@ class signup extends Component{
     this.state={
       type: "USER_SIGNUP",
       UserName : "",
+      name: "",
       password : ""
     };
 
@@ -24,11 +25,19 @@ class signup extends Component{
       <div>
         <form onSubmit={this.SignupHandler}>
           <h3>User SignUp</h3>
+          <label>UserName</label>
           <input type="text" name="Username"
           onChange={(event)=> this.setState({UserName: event.target.value})}
           value={this.state.UserName}
           required/>
           <br/>
+          <label>Your Name</label>
+          <input type="text" name="name"
+          onChange={(event)=> this.setState({name: event.target.value})}
+          value={this.state.name}
+          required/>
+          <br/>
+          <label>Pasword</label>
           <input type="password" name="password"
           onChange={(event)=> this.setState({password: event.target.value})}
           value={this.state.password}
