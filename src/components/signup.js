@@ -44,6 +44,7 @@ class signup extends Component{
           required />
           <br/>
           <input type="submit" value="SignUp"/>
+          <p>Already have a account? Login <input type="button" value="here"/></p>
         </form>
       </div>
     );

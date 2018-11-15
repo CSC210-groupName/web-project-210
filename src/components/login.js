@@ -39,6 +39,7 @@ class login extends Component{
           required />
           <br/>
           <input type="submit" value="login"/>
+          <p>Don't have a account? SignUp <input type="button" value="here"/></p>
         </form>
       </div>
     );
