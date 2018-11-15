@@ -5,7 +5,7 @@ class login extends Component{
   constructor(props){
     super(props);
     this.state={
-      type: "USER_SIGNUP",
+      type: "USER_LOGIN",
       UserName : "",
       password : ""
     };
