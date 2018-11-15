@@ -1,10 +1,18 @@
 import React, {Component} from 'react';
 
 class signup extends Component{
+
+
+
+  SignupHandler(event){
+    event.preventDefault();
+    
+  }
+
   render() {
     return (
       <div>
-        <form>
+        <form onSubmit={this.SignupHandler}>
           <h3>User Signup</h3>
           <input type="text" required/>
           <br/>
