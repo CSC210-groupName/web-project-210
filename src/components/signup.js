@@ -30,6 +30,7 @@ class signup extends Component{
     //here button handling
     document.getElementById("loginForm").style.display="block";
     document.getElementById("signupForm").style.display="none";
+
   }
 
 

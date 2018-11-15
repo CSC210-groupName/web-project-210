@@ -25,7 +25,7 @@ class login extends Component{
     event.preventDefault();
     console.log(this.state);
     //state here contains the value for submit, great place for validation
-
+    
   }
 
   showSignUpForm(){
@@ -45,7 +45,7 @@ class login extends Component{
           value={this.state.UserName}
           required/>
           <br/>
-          <label>Pasword</label>
+          <label>Password</label>
           <input type="password" name="password"
           onChange={(event)=> this.setState({password: event.target.value})}
           value={this.state.password}
