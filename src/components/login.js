@@ -24,6 +24,11 @@ class login extends Component{
   LoginHandler(event){
     event.preventDefault();
     console.log(this.state);
+
+    var para = document.createElement("P");                       // Create a <p> element
+    var t = document.createTextNode("You are logged in");      // Create a text node
+    para.appendChild(t);                                          // Append the text to <p>
+    document.getElementById("loginFeedback").appendChild(para);           // Append <p> to <div>
     //state here contains the value for submit, great place for validation
     //axios
   }
@@ -54,6 +59,8 @@ class login extends Component{
           <input type="submit" value="login"/>
           <p>Don't have a account? SignUp <input type="button" value="here" onClick={this.showSignUpForm}/></p>
         </form>
+        <div id="loginFeedback">
+        </div>
       </div>
     );
   }

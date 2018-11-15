@@ -25,6 +25,10 @@ class signup extends Component{
     console.log(this.state);
     //state here contains the value for submit, great place for validation
     //axios
+    var para = document.createElement("P");                       // Create a <p> element
+    var t = document.createTextNode("SignUp successful");      // Create a text node
+    para.appendChild(t);                                          // Append the text to <p>
+    document.getElementById("SignUpFeedback").appendChild(para);           // Append <p> to <div>
   }
 
   showloginForm(){
@@ -63,6 +67,8 @@ class signup extends Component{
           <input type="submit" value="SignUp"/>
           <p>Already have a account? Login <input type="button" value="here" onClick={this.showloginForm}/></p>
         </form>
+        <div id="SignUpFeedback">
+        </div>
       </div>
     );
   }
