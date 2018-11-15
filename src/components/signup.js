@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-
+import axios from 'axios';
 class signup extends Component{
 
   constructor(props){
@@ -24,6 +24,7 @@ class signup extends Component{
     event.preventDefault();
     console.log(this.state);
     //state here contains the value for submit, great place for validation
+    //axios
   }
 
   showloginForm(){
