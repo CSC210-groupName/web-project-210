@@ -29,6 +29,18 @@ def loginRequest():
         result = 'Username not found';
     return json.dumps({'result':result});
 
+@app.route('/signup', methods=['POST'])
+def signupRequest():
+    data = json.loads(request.data);
+    userVal = data['username'];
+    passVal = data['password'];
+    try:
+        storeUserAndPass(userVal, ph.hash(passVal))
+        result = 'Account creation successful';
+    except:
+        result = 'Failure!';
+    return json.dumps({'result':result});
+
 
 def verifyPassword(saved_hash, input_password_attempt):
     try:
@@ -93,12 +105,12 @@ def initDB():
 
 # These hashes are for 'pass1' and 'pass2', respectively
 # Run these commands (once) to enter the example data for a new db
-# storeUserAndPass('john','$argon2id$v=19$m=102400,t=2,p=8$9Kzm/DEQghBwzas81kIKxg$Pu1bQL00PJkpPRmLU7Jigg')
-# storeUserAndPass('jane','$argon2id$v=19$m=102400,t=2,p=8$AuWPF6SH8a4QmKefLeUnaQ$2WzzozzQofJJxBKOY53yqg')
 
 
 if __name__ == '__main__':
-    sqlite_file = '/test_db.db';
+    sqlite_file = './test_db.db';
+    #storeUserAndPass('john','$argon2id$v=19$m=102400,t=2,p=8$9Kzm/DEQghBwzas81kIKxg$Pu1bQL00PJkpPRmLU7Jigg')
+    #storeUserAndPass('jane','$argon2id$v=19$m=102400,t=2,p=8$AuWPF6SH8a4QmKefLeUnaQ$2WzzozzQofJJxBKOY53yqg')
     ph = PasswordHasher();
     dbInitialized = initDB();
     if (dbInitialized):
