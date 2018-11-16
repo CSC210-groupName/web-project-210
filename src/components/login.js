@@ -18,6 +18,7 @@ class login extends Component{
     };
 
     this.LoginHandler=this.LoginHandler.bind(this);
+    this.showSignUpForm = this.showSignUpForm.bind(this);
   }
 
 
@@ -25,18 +26,24 @@ class login extends Component{
     event.preventDefault();
     console.log(this.state);
 
-    var para = document.createElement("P");                       // Create a <p> element
-    var t = document.createTextNode("You are logged in");      // Create a text node
-    para.appendChild(t);                                          // Append the text to <p>
-    document.getElementById("loginFeedback").appendChild(para);           // Append <p> to <div>
+    //user feedbacks for different situation
+    document.getElementById("loginFeedback").innerHTML="login successful";
+    //document.getElementById("loginFeedback").innerHTML="Username NOT found";
+    //document.getElementById("loginFeedback").innerHTML="Password is incorrect";
+
+
     //state here contains the value for submit, great place for validation
-    //axios
+    //axios makes http request to the backend
+    this.setState({UserName : "", password : ""});
   }
 
   showSignUpForm(){
     //here button handling
+    this.setState({UserName : "", password : ""});
     document.getElementById("loginForm").style.display="none";
     document.getElementById("signupForm").style.display="block";
+    document.getElementById("loginFeedback").innerHTML="";
+
   }
 
   render() {
@@ -59,7 +66,8 @@ class login extends Component{
           <input type="submit" value="login"/>
           <p>Don't have a account? SignUp <input type="button" value="here" onClick={this.showSignUpForm}/></p>
         </form>
-        <div id="loginFeedback">
+        <div>
+          <p id="loginFeedback"></p>
         </div>
       </div>
     );

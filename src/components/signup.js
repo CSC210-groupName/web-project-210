@@ -18,6 +18,7 @@ class signup extends Component{
       display: "block"
     };
     this.SignupHandler=this.SignupHandler.bind(this);
+    this.showloginForm=this.showloginForm.bind(this);
   }
 
   SignupHandler(event){
@@ -25,16 +26,21 @@ class signup extends Component{
     console.log(this.state);
     //state here contains the value for submit, great place for validation
     //axios
-    var para = document.createElement("P");                       // Create a <p> element
-    var t = document.createTextNode("SignUp successful");      // Create a text node
-    para.appendChild(t);                                          // Append the text to <p>
-    document.getElementById("SignUpFeedback").appendChild(para);           // Append <p> to <div>
+    document.getElementById("SignUpFeedback").innerHTML="SignUp successful";
+
+    //document.getElementById("SignUpFeedback").innerHTML="USername already taken";
+
+
+    this.setState({UserName : "", password : "", name: ""});   //clears up the form
   }
 
   showloginForm(){
     //here button handling
+    this.setState({UserName : "", password : "", name: ""});
     document.getElementById("loginForm").style.display="block";
     document.getElementById("signupForm").style.display="none";
+    document.getElementById("SignUpFeedback").innerHTML="";
+
 
   }
 
@@ -67,7 +73,8 @@ class signup extends Component{
           <input type="submit" value="SignUp"/>
           <p>Already have a account? Login <input type="button" value="here" onClick={this.showloginForm}/></p>
         </form>
-        <div id="SignUpFeedback">
+        <div>
+          <p id="SignUpFeedback"></p>
         </div>
       </div>
     );
