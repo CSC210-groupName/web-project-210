@@ -1,5 +1,9 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import login_successful from '../actions/login_successful';
+
 class login extends Component{
 
   constructor(props){
@@ -25,6 +29,11 @@ class login extends Component{
   LoginHandler(event){
     event.preventDefault();
     console.log(this.state);
+
+
+//this function means we are good to login
+    this.props.login_successful();
+
 
     //user feedbacks for different situation
     document.getElementById("loginFeedback").innerHTML="login successful";
@@ -75,4 +84,8 @@ class login extends Component{
   }
 }
 
-export default login;
+function mapDispatchToProps(dispatch){
+  return bindActionCreators({login_successful: login_successful},dispatch);
+}
+
+export default connect(null, mapDispatchToProps)(login);

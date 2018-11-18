@@ -1,24 +1,11 @@
-import { s } from '../actions/login_successful';
-import { s1 } from '../actions/logout';
+import { s as login_successful} from '../actions/login_successful';
+import { s1 as logout } from '../actions/logout';
 
-export default function loginOrOut(state, action){
-  if(!state || !state.user_loginStatus){
-    return{
-      ...state,
-      user_loginStatus: false
-    }
+export default function loginOrOut(state=false, action){
+  if(action.type===login_successful){
+    return true;
+  }else if(action.type===logout){
+    return false;
   }
-
-  if(action.type===s){
-    return {
-      ...state,
-      user_loginStatus: true
-    };
-  }else if(action.type===s1){
-    return {
-      user_loginStatus: false
-    };
-  }
-
     return state;
 }

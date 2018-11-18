@@ -1,5 +1,9 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+// import { connect } from 'react-redux';
+// import { bindActionCreators } from 'redux';
+// import signupAction from '../actions/signup';
+
 class signup extends Component{
 
   constructor(props){
@@ -24,6 +28,8 @@ class signup extends Component{
   SignupHandler(event){
     event.preventDefault();
     console.log(this.state);
+
+  //  this.props.signup();
     //state here contains the value for submit, great place for validation
     //axios
     document.getElementById("SignUpFeedback").innerHTML="SignUp successful";
@@ -82,4 +88,11 @@ class signup extends Component{
 
 }
 
+
 export default signup;
+//
+// function mapDispatchToProps(dispatch){
+//   return bindActionCreators({signup: signupAction}, dispatch);
+// }
+//
+// export default connect(null, mapDispatchToProps)(signup);
