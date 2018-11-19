@@ -5,7 +5,7 @@ import Signup from './signup';
 export default class Logsignform extends React.Component{
 
 
-  componentDidMount(){
+  componentWillMount(){
     if(!document.getElementById('page_css')) {
       var link = document.createElement('link');
       link.id = 'page_css';

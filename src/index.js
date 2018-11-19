@@ -13,7 +13,7 @@ import reducers from "./reducers";
 import Calendar from './components/Calendar';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
 
-import { Router, Switch } from 'react-router';
+import { Switch } from 'react-router';
 
 
 ReactDOM.render(
