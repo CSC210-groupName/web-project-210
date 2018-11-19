@@ -31,16 +31,20 @@ class login extends Component{
     console.log(this.state);
     console.log(this.state['UserName']);
     console.log(this.state['password']);
+    var success;
     axios.post('http://127.0.0.1:5000/login', {
       username: this.state['UserName'],
       password: this.state['password']
     }).then(function(response) {
-        document.getElementById("loginFeedback").innerHTML='Result: '+ response.data.result;
+      success = response.data.success;
+      document.getElementById("loginFeedback").innerHTML='Result: '+ response.data.result;
     });
 
 
 //this function means we are good to login
-    this.props.login_successful();
+    if (success) {
+      this.props.login_successful();
+    }
 
 
     //user feedbacks for different situation

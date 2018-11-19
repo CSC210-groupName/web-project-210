@@ -28,9 +28,11 @@ def loginRequest():
         if (verified):
             name = getNameForUser(userVal)
         result = 'Login successful. Welcome ' + name + '!' if verified else 'Incorrect password';
+        success = True;
     except:
         result = 'Username not found';
-    return json.dumps({'result':result});
+        success = False;
+    return json.dumps({'result':result, 'success': success});
 
 @app.route('/signup', methods=['POST'])
 def signupRequest():
