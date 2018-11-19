@@ -6,16 +6,25 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
 
-import Login from "./components/login";
-import Signup from "./components/signup";
+// import Login from "./components/login";
+// import Signup from "./components/signup";
+import Logsignform from './components/logsignform';
 import reducers from "./reducers";
+import Calendar from './components/Calendar';
+import { BrowserRouter, Route, Link } from 'react-router-dom';
+
+import { Router, Switch } from 'react-router';
 
 
 ReactDOM.render(
   <Provider store={createStore(reducers)}>
     <div>
-      <Login />
-      <Signup />
+    <BrowserRouter>
+      <Switch>
+        <Route path="/cal" component={Calendar}/>
+        <Route path="/" component={Logsignform}/>
+      </Switch>
+    </BrowserRouter>
     </div>
   </Provider>,
   document.querySelector("#root")
