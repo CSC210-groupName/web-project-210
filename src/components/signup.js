@@ -28,11 +28,18 @@ class signup extends Component{
   SignupHandler(event){
     event.preventDefault();
     console.log(this.state);
+    axios.post('http://127.0.0.1:5000/signup', {
+      name: this.state['name'],
+      username: this.state['UserName'],
+      password: this.state['password']
+    }).then(function(response) {
+        document.getElementById("SignUpFeedback").innerHTML='Result: '+ response.data.result;
+    });
 
   //  this.props.signup();
     //state here contains the value for submit, great place for validation
     //axios
-    document.getElementById("SignUpFeedback").innerHTML="SignUp successful";
+    //document.getElementById("SignUpFeedback").innerHTML="SignUp successful";
 
     //document.getElementById("SignUpFeedback").innerHTML="USername already taken";
 
