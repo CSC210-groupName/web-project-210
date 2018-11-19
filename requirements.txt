@@ -5,6 +5,7 @@ anaconda-project==0.8.2
 appdirs==1.4.3
 appnope==0.1.0
 appscript==1.0.1
+argon2==0.1.10
 argon2-cffi==18.3.0
 asn1crypto==0.24.0
 astroid==2.0.4
