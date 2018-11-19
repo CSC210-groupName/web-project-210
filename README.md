@@ -42,3 +42,16 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+To run python backend:
+
+1. Install python 3.x from https://www.python.org/downloads/
+2. Open a command line terminal
+3. Run the following commands to get set up:
+	curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+	python get-pip.py
+	pip install flask
+	pip install -U flask-cors
+	pip install argon2_cffi
+4. Run the following to start the server (from the server directory):
+	python server.py
