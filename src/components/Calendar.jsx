@@ -1,6 +1,5 @@
 import React from "react";
-import dateFns from 'date-fns';
-//import '../style/monthCal.css';
+import dateFns from "date-fns";
 
 class Calendar extends React.Component {
     state = {
@@ -15,6 +14,12 @@ class Calendar extends React.Component {
             <div className="header row flex-middle">
 
                 <div className="col col-start">
+                    <div className="icon" onClick={this.prevYear}>
+                        first_page
+                    </div>
+                </div>
+
+                <div className="col col-start">
                     <div className="icon" onClick={this.prevMonth}>
                         chevron_left
                     </div>
@@ -26,8 +31,14 @@ class Calendar extends React.Component {
                     </span>
                 </div>
 
-                <div className="col col-end" onClick={this.nextMonth}>
-                    <div className="icon">chevron_right</div>
+                <div className="col col-end">
+                    <div className="icon" onClick={this.nextMonth}>
+                        chevron_right</div>
+                </div>
+
+                <div className="col col-end" >
+                    <div className="icon" onClick={this.nextYear}>
+                        last_page</div>
                 </div>
 
             </div>
@@ -119,9 +130,17 @@ class Calendar extends React.Component {
         });
     };
 
-    nextYear = () => { };
+    nextYear = () => {
+        this.setState({
+            currentMonth: dateFns.addMonths(this.state.currentMonth, 12)
+        });
+    };
 
-    prevYear = () => { };
+    prevYear = () => {
+        this.setState({
+            currentMonth: dateFns.subMonths(this.state.currentMonth, 12)
+        });
+    };
 
     render() {
         return (
