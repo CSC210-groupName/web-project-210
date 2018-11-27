@@ -11,6 +11,7 @@ import { createStore } from "redux";
 import Logsignform from './components/logsignform';
 import reducers from "./reducers";
 import Calendar from './components/Calendar';
+import DailyCalendar from "./components/DailyCalendar"
 import { BrowserRouter, Route, Link } from 'react-router-dom';
 
 import { Switch } from 'react-router';
@@ -21,6 +22,7 @@ ReactDOM.render(
     <div>
     <BrowserRouter>
       <Switch>
+        <Route path="/day" component={DailyCalendar}/>
         <Route path="/cal" component={Calendar}/>
         <Route path="/" component={Logsignform}/>
       </Switch>
