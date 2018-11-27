@@ -111,20 +111,17 @@ def initDB():
         except:
             c.execute("create table users (username TEXT PRIMARY KEY, name TEXT, password TEXT)");
             c.execute("select * from users");
-        finally:
-            print("Current State Of users Table:");
-            print(c.fetchall());
-            conn.close();
+        try:
+            c.execute("select * from calevents");
+        except:
+            c.execute("create table calevents (eventid INT PRIMARY KEY, username TEXT, name TEXT, date TEXT, starttime TEXT, endtime TEXT, eventname TEXT)");
+            c.execute("select * from calevents");
+        conn.close();
     return success
-
-# These hashes are for 'pass1' and 'pass2', respectively
-# Run these commands (once) to enter the example data for a new db
 
 
 if __name__ == '__main__':
     sqlite_file = './test_db.db';
-    #storeUserAndPass('john','$argon2id$v=19$m=102400,t=2,p=8$9Kzm/DEQghBwzas81kIKxg$Pu1bQL00PJkpPRmLU7Jigg')
-    #storeUserAndPass('jane','$argon2id$v=19$m=102400,t=2,p=8$AuWPF6SH8a4QmKefLeUnaQ$2WzzozzQofJJxBKOY53yqg')
     ph = PasswordHasher();
     dbInitialized = initDB();
     if (dbInitialized):
