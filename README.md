@@ -43,14 +43,14 @@ You can learn more in the [Create React App documentation](https://facebook.gith
 
 To learn React, check out the [React documentation](https://reactjs.org/).
 
-To run python backend:
+## To run python backend:
 
 1. Install python 3.x from https://www.python.org/downloads/
 2. Open a command line terminal
 3. If you don't have pip installed already
-	curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-	python get-pip.py
+	`curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py`
+	`python get-pip.py`
 4. Run the following to install dependencies
-	pip install -r requirements.txt
+	`pip install -r requirements.txt`
 5. Run the following to start the server (from the server directory):
-	python server.py
+	`python server.py`
