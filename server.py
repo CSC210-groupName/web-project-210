@@ -6,16 +6,6 @@ import sqlite3
 app = Flask(__name__)
 CORS(app)
 
-oauth = OAuth()
-twitter = oauth.remote_app('twitter',
-    base_url='https://api.twitter.com/1/',
-    request_token_url='https://api.twitter.com/oauth/request_token',
-    access_token_url='https://api.twitter.com/oauth/access_token',
-    authorize_url='https://api.twitter.com/oauth/authenticate',
-    consumer_key='<your key here>',
-    consumer_secret='<your secret here>'
-)
-
 # endpoint for login, a post method
 @app.route('/login', methods=['POST'])
 def loginRequest():
@@ -56,6 +46,26 @@ def signupRequest():
     #return result of signup
     return json.dumps({'result':result});
 
+@app.route('/newevent', methods=['POST'])
+def addNewEvent():
+    data = json.loads(response.data);
+    userVal = data['username'];
+    date = data['date'];
+    starttime = data['starttime'];
+    endtime = data['endtime'];
+    eventname = data['eventname'];
+    eventdesc = data['eventdesc'];
+    try:
+        storeEvent(username, date, starttime, endtime, eventname, eventdesc);
+        result = True;
+    except:
+        result = False;
+    return json.dumps({'success':result});
+
+@app.route('/events/<username>', methods=['GET'])
+def getAllEvents(username=None):
+    return json.dumps(getCalendarEventsForUser(username));
+
 # method to verify a password, true if match, false otherwise
 def verifyPassword(saved_hash, input_password_attempt):
     try:
@@ -83,6 +93,16 @@ def storeUserAndPass(username, name, password):
         conn.commit();
         conn.close();
 
+def storeEvent(username, date, starttime, endtime, eventname, eventdesc):
+    conn = sqlite3.connect(sqlite_file);
+    c = conn.cursor();
+    c.execute("select count(*) from calevents")
+    eventid = c.fetchall()[0][0];
+    name = getNameForUser(username)
+    c.execute("insert into calevents values (?, ?, ?, ?, ?, ?, ?, ?)", (eventid, username, name, date, starttime, endtime, eventname, eventdesc));
+    conn.commit();
+    conn.close();
+
 # simple method to get only the name of a user
 def getNameForUser(username):
     conn = sqlite3.connect(sqlite_file);
@@ -100,6 +120,31 @@ def getStoredPassForUser(username):
     result = c.fetchall()[0][0];
     conn.close();
     return result;
+
+# gets all calendar events associated with a user
+def getCalendarEventsForUser(username):
+    conn = sqlite3.connect(sqlite_file);
+    c = conn.cursor();
+    c.execute("select * from calevents where username = '{}'".format(username));
+    events = c.fetchall();
+    schema = getTableColumns(conn, 'calevents')
+    return listsToDicts(events, schema);
+
+# gets just the column names of a table
+def getTableColumns(db, table_name):
+    curs = db.cursor()
+    sql = "select * from %s where 1=0;" % table_name
+    curs.execute(sql)
+    return [d[0] for d in curs.description]
+
+# creating dictionaries for returning json
+# provide keys (labels) and values (lsts)
+def listsToDicts(lsts, labels):
+    fulldict = []
+    for lst in lsts:
+        newdict = dictionary = dict(zip(labels, lst))
+        fulldict.append(newdict)
+    return fulldict
 
 # method to remove a user from the database - not currently used but helpful if we want to have
 # "deactivate account" or something similar
@@ -138,7 +183,7 @@ def initDB():
             c.execute("select * from calevents");
         except:
             #if not, create it
-            c.execute("create table calevents (eventid INT PRIMARY KEY, username TEXT, name TEXT, date TEXT, starttime TEXT, endtime TEXT, eventname TEXT)");
+            c.execute("create table calevents (eventid INT PRIMARY KEY, username TEXT, name TEXT, date TEXT, starttime TEXT, endtime TEXT, eventname TEXT, eventdesc TEXT)");
             c.execute("select * from calevents");
         conn.close(); #close connection to db
     return success
