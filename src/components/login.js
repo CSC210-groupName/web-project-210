@@ -88,6 +88,7 @@ class login extends Component{
           <input type="submit" value="login"/>
           <p>Don't have a account? SignUp <input type="button" value="here" onClick={this.showSignUpForm}/></p>
         </form>
+        <a href="http://localhost:5000/auth/google">login with Google Oauth</a>
         <div>
           <p id="loginFeedback"></p>
         </div>

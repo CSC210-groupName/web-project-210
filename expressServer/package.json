@@ -1,0 +1,21 @@
+{
+  "name": "expressserver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cookie-session": "^2.0.0-beta.3",
+    "express": "^4.16.4",
+    "mongoose": "^5.3.14",
+    "nodemon": "^1.18.7",
+    "passport": "^0.4.0",
+    "passport-google-oauth20": "^1.0.0"
+  }
+}
