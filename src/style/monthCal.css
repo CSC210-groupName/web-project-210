@@ -76,6 +76,10 @@ main {
   max-width: 50em;
 }
 
+.eventAdder {
+  text-align: center;
+}
+
 
 /* GRID */
 
