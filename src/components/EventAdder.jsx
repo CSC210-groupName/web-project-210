@@ -39,7 +39,7 @@ class EventAdder extends React.Component {
   onEventSubmit = (event) => {
     event.preventDefault();
     var success;
-    axios.post('http://127.0.0.1:5000/newevent', {
+    axios.post('http://127.0.0.1:8080/newevent', {
       username: localStorage.getItem("username"),
       date: this.state['eDate'],
       starttime: this.state['sTime'],

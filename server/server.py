@@ -194,4 +194,4 @@ if __name__ == '__main__':
     ph = PasswordHasher();
     dbInitialized = initDB();
     if (dbInitialized):
-	    app.run(debug=True, port=5000) #run app in debug mode on port 5000
+	    app.run(debug=True, port=8080) #run app in debug mode on port 5000

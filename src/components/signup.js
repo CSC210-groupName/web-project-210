@@ -28,7 +28,7 @@ class signup extends Component{
   SignupHandler(event){
     event.preventDefault();
     console.log(this.state);
-    axios.post('http://127.0.0.1:5000/signup', {
+    axios.post('http://127.0.0.1:8080/signup', {
       name: this.state['name'],
       username: this.state['UserName'],
       password: this.state['password']
