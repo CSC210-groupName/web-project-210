@@ -48,8 +48,8 @@ def signupRequest():
 
 @app.route('/newevent', methods=['POST'])
 def addNewEvent():
-    data = json.loads(response.data);
-    userVal = data['username'];
+    data = json.loads(request.data);
+    username = data['username'];
     date = data['date'];
     starttime = data['starttime'];
     endtime = data['endtime'];
@@ -57,9 +57,9 @@ def addNewEvent():
     eventdesc = data['eventdesc'];
     try:
         storeEvent(username, date, starttime, endtime, eventname, eventdesc);
-        result = True;
+        result = "Event Successfully Added";
     except:
-        result = False;
+        result = "An Error Occurred";
     return json.dumps({'success':result});
 
 @app.route('/events/<username>', methods=['GET'])

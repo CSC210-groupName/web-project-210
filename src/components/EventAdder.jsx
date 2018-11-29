@@ -1,5 +1,7 @@
 import React from "react";
+import axios from 'axios';
 import List from './List';
+import { Redirect } from 'react-router';
 
 class EventAdder extends React.Component {
   constructor(props) {
@@ -36,6 +38,18 @@ class EventAdder extends React.Component {
 
   onEventSubmit = (event) => {
     event.preventDefault();
+    var success;
+    axios.post('http://127.0.0.1:5000/newevent', {
+      username: localStorage.getItem("username"),
+      date: this.state['eDate'],
+      starttime: this.state['sTime'],
+      endtime: this.state['eTime'],
+      eventname: this.state['eName'],
+      eventdesc: this.state['eDesc'],
+    }).then(function(response) {
+      success = response.data.success;
+      document.getElementById("feedback").innerHTML='Result: '+ success;
+    });
     this.setState({
       sTime: '',
       eTime: '',
@@ -47,11 +61,24 @@ class EventAdder extends React.Component {
   }
 
   render() {
+    if (localStorage.getItem("username") === null) {
+      return (
+            <Redirect 
+            to={{
+              pathname: '/login',
+              state: 'Please sign in!' 
+            }} 
+          />
+        )
+    }
     return (
       <div className="eventAdder">
         <h2>
           Event Adder
         </h2>
+        <div>
+          <p id="loginmessage"></p>
+        </div>
         <div>
           <form onSubmit={this.onEventSubmit}>
             Start Time: <br></br>
@@ -70,6 +97,7 @@ class EventAdder extends React.Component {
 
         <div>
           <List items={this.state.items} />
+          <p id="feedback"></p>
         </div>
 
 

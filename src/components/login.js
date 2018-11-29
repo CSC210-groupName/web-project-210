@@ -28,24 +28,21 @@ class login extends Component{
 
   LoginHandler(event){
     event.preventDefault();
-    console.log(this.state);
-    console.log(this.state['UserName']);
-    console.log(this.state['password']);
+    var username = this.state['UserName'];
     var success;
     axios.post('http://127.0.0.1:5000/login', {
       username: this.state['UserName'],
       password: this.state['password']
     }).then(function(response) {
       success = response.data.success;
+      localStorage.setItem("username", username);
       document.getElementById("loginFeedback").innerHTML='Result: '+ response.data.result;
     });
-
 
 //this function means we are good to login
     if (success) {
       this.props.login_successful();
     }
-
 
     //user feedbacks for different situation
     //document.getElementById("loginFeedback").innerHTML="login successful";
