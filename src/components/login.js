@@ -3,6 +3,9 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import login_successful from '../actions/login_successful';
+import  { Redirect } from 'react-router-dom';
+
+
 
 class login extends Component{
 
@@ -28,15 +31,20 @@ class login extends Component{
 
   LoginHandler(event){
     event.preventDefault();
-    var username = this.state['UserName'];
     var success;
-    axios.post('http://127.0.0.1:8080/login', {
+    axios.post('/auth/logindefault', {
       username: this.state['UserName'],
       password: this.state['password']
     }).then(function(response) {
-      success = response.data.success;
-      localStorage.setItem("username", username);
-      document.getElementById("loginFeedback").innerHTML='Result: '+ response.data.result;
+      success = response.data;
+
+      if(success==="success"){
+        console.log(success);
+        document.getElementById("loginFeedback").innerHTML='Result: '+ response.data;
+          return <Redirect to='/cal' />;
+      }
+      //localStorage.setItem("username", username);
+      document.getElementById("loginFeedback").innerHTML='Result: '+ response.data;
     });
 
 //this function means we are good to login
@@ -85,7 +93,7 @@ class login extends Component{
           <input type="submit" value="login"/>
           <p>Don't have a account? SignUp <input type="button" value="here" onClick={this.showSignUpForm}/></p>
         </form>
-        <a href="http://localhost:5000/auth/google">login with Google Oauth</a>
+        <a href="/auth/google">login with Google Oauth</a>
         <div>
           <p id="loginFeedback"></p>
         </div>

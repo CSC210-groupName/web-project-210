@@ -28,12 +28,29 @@ class signup extends Component{
   SignupHandler(event){
     event.preventDefault();
     console.log(this.state);
-    axios.post('http://127.0.0.1:8080/signup', {
-      name: this.state['name'],
-      username: this.state['UserName'],
-      password: this.state['password']
+    axios.post('/auth/signupdefault', {
+      name: this.state.name,
+      username: this.state.UserName,
+      password: this.state.password
     }).then(function(response) {
-        document.getElementById("SignUpFeedback").innerHTML='Result: '+ response.data.result;
+      console.log(response.data);
+      if(response.data==='UserName already existed'){
+        document.getElementById("SignUpFeedback").innerHTML='Result: '+ response.data;
+      }else{
+        axios.post('/auth/logindefault',{username: response.data.username, password: response.data.password}).then(
+          resp=>{
+            console.log(resp.data);
+            if(resp.data==='success'){
+              console.log("we are signed up and logged in!")
+              document.getElementById("SignUpFeedback").innerHTML='we are signed up and logged in!';
+            }else{
+              document.getElementById("SignUpFeedback").innerHTML='Something went wrong! Please contact us!';
+            }
+          }
+        );
+      }
+
+
     });
 
   //  this.props.signup();

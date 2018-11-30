@@ -3,6 +3,7 @@ const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const mongoose = require('mongoose');
 const User = mongoose.model('users');
+const LocalStrategy = require('passport-local').Strategy;
 
 passport.serializeUser((user, done)=>{
   done(null, user.id);
@@ -13,6 +14,19 @@ passport.deserializeUser((id, done)=>{
     done(null, user);
   })
 });
+
+passport.use(new LocalStrategy(
+    (username, password, done)=>{
+      User.findOne({userName: username}).then(user=>{
+        if(user.password===password){
+          return done(null, user);
+        }else{
+          return done(null, false);
+        }
+      })
+    }
+  )
+);
 
 
 passport.use(new GoogleStrategy({
@@ -26,11 +40,11 @@ passport.use(new GoogleStrategy({
         .then((existingUser)=>{
           if(existingUser){
             //we already have this user
-              console.log(existingUser);
+          //    console.log(existingUser);
             done(null, existingUser);
           }else{
             //get a new one to the database
-            console.log(existingUser);
+        //    console.log(existingUser);
             new User({
               googleid: profile.id,
               userName: null,
