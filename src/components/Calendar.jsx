@@ -1,11 +1,22 @@
 import React from "react";
 import dateFns from "date-fns";
+import axios from "axios";
 
 class Calendar extends React.Component {
     state = {
         currentMonth: new Date(),
         selectedDate: new Date()
     };
+
+    componentWillMount(){
+      axios.get('/auth/current_user').then(res=>{
+        //console.log(typeof res.data);
+        if(res.data===""){
+          console.log("Redirect");
+          this.props.history.push('/');
+        }
+      })
+    }
 
     renderHeader() {
         const dateFormat = "MMMM - YYYY";

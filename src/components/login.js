@@ -41,7 +41,8 @@ class login extends Component{
       if(success==="success"){
         console.log(success);
         document.getElementById("loginFeedback").innerHTML='Result: '+ response.data;
-          return <Redirect to='/cal' />;
+        //vanilla js works after all....
+        window.location.href = '/cal';
       }
       //localStorage.setItem("username", username);
       document.getElementById("loginFeedback").innerHTML='Result: '+ response.data;

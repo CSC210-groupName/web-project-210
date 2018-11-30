@@ -1,5 +1,6 @@
 import React from "react";
 import dateFns from "date-fns";
+import axios from "axios";
 
 class DailyCalendar extends React.Component {
     state = {
@@ -8,6 +9,16 @@ class DailyCalendar extends React.Component {
         selectedDate: new Date()
     };
 
+    componentWillMount(){
+      axios.get('/auth/current_user').then(res=>{
+        //console.log(typeof res.data);
+        if(res.data===""){
+          console.log("Redirect");
+          this.props.history.push('/');
+        }
+      })
+    }
+    
     renderHeader() {
         const dateFormat = "dddd - MMMM D, YYYY";
 
@@ -86,7 +97,7 @@ class DailyCalendar extends React.Component {
                             <div className="col cell timedisplay">
                                 <span>{time}:00 am</span>
                             </div>
-                        ); 
+                        );
                     } if (6<=hour && hour<18) {
                         days.push(
                             <div className="col cell timedisplay">
@@ -100,7 +111,7 @@ class DailyCalendar extends React.Component {
                             </div>
                         );
                     }
- 
+
                 } else {
                     days.push(
                         <div className="col cell">

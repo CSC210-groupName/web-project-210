@@ -25,6 +25,7 @@ class signup extends Component{
     this.showloginForm=this.showloginForm.bind(this);
   }
 
+
   SignupHandler(event){
     event.preventDefault();
     console.log(this.state);
@@ -41,8 +42,10 @@ class signup extends Component{
           resp=>{
             console.log(resp.data);
             if(resp.data==='success'){
-              console.log("we are signed up and logged in!")
+              console.log("we are signed up and logged in!");
               document.getElementById("SignUpFeedback").innerHTML='we are signed up and logged in!';
+                //vanilla js works after all....
+                window.location.href = '/cal';
             }else{
               document.getElementById("SignUpFeedback").innerHTML='Something went wrong! Please contact us!';
             }
