@@ -45,7 +45,7 @@ class login extends Component{
         window.location.href = '/cal';
       }
       //localStorage.setItem("username", username);
-      document.getElementById("loginFeedback").innerHTML='Result: '+ response.data;
+      document.getElementById("loginFeedback").innerHTML='Result: invalid userName or password';
     });
 
 //this function means we are good to login

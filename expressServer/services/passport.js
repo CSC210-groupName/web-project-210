@@ -17,8 +17,8 @@ passport.deserializeUser((id, done)=>{
 
 passport.use(new LocalStrategy(
     (username, password, done)=>{
-      User.findOne({userName: username}).then(user=>{
-        if(user.password===password){
+      User.findOne({userName: username, password: password}).then(user=>{
+        if(user){
           return done(null, user);
         }else{
           return done(null, false);
