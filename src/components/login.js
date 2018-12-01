@@ -43,9 +43,11 @@ class login extends Component{
         document.getElementById("loginFeedback").innerHTML='Result: '+ response.data;
         //vanilla js works after all....
         window.location.href = '/cal';
+      }else{
+        document.getElementById("loginFeedback").innerHTML='Result: invalid userName or password';
       }
       //localStorage.setItem("username", username);
-      document.getElementById("loginFeedback").innerHTML='Result: invalid userName or password';
+
     });
 
 //this function means we are good to login
