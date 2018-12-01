@@ -1,3 +1,27 @@
 body {
-  background: yellow;
+  background: #DBFBFF;
+}
+
+#logsignform{
+  text-align: center;
+  margin-top: 12%;
+}
+
+.logsigninput{
+  border:none;
+  background: transparent;
+  border-bottom: 1px solid grey;
+  opacity: 1;
+  height: 70px;
+  width: 300px;
+  font-size:34px;
+  margin-bottom: 10px;
+}
+
+*:focus {
+    outline: none;
+}
+
+.prompt{
+  margin-right: 225px;
 }

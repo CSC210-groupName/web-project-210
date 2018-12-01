@@ -21,7 +21,7 @@ export default class Logsignform extends React.Component{
 
   render(){
     return (
-      <div>
+      <div id="logsignform">
         <Login />
         <Signup />
       </div>

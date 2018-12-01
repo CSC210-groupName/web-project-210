@@ -81,14 +81,14 @@ class login extends Component{
       <div id="loginForm">
         <form onSubmit={this.LoginHandler}>
           <h3>User Login</h3>
-          <label>UserName</label>
-          <input type="text" name="Username"
+          <label className="prompt">UserName</label><br />
+          <input type="text" name="Username" className="logsigninput"
           onChange={(event)=> this.setState({UserName: event.target.value})}
           value={this.state.UserName}
           required/>
           <br/>
-          <label>Password</label>
-          <input type="password" name="password"
+          <label className="prompt">Password</label><br />
+          <input type="password" name="password" className="logsigninput"
           onChange={(event)=> this.setState({password: event.target.value})}
           value={this.state.password}
           required />
