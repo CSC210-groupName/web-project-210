@@ -4,6 +4,20 @@ import List from './List';
 import { Redirect } from 'react-router';
 
 class EventAdder extends React.Component {
+
+  componentWillMount(){
+    if(!document.getElementById('page_css')) {
+      var link = document.createElement('link');
+      link.id = 'page_css';
+      link.rel = 'stylesheet';
+      link.href="indexStyle.css";
+    document.head.appendChild(link);
+    }else{
+      var link1 = document.getElementById('page_css');
+      link1.href="addevent.css";
+    }
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -63,11 +77,11 @@ class EventAdder extends React.Component {
   render() {
     if (localStorage.getItem("username") === null) {
       return (
-            <Redirect 
+            <Redirect
             to={{
               pathname: '/login',
-              state: 'Please sign in!' 
-            }} 
+              state: 'Please sign in!'
+            }}
           />
         )
     }
