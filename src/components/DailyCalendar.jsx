@@ -4,9 +4,9 @@ import axios from "axios";
 
 class DailyCalendar extends React.Component {
     state = {
-        currentDay: new Date(),
-        currentMonth: new Date(),
-        selectedDate: new Date()
+        currentDay: this.props.location.state.currentDay,
+        currentMonth: this.props.location.state.currentMonth,
+        selectedDate: this.props.location.state.selectedDate
     };
 
     componentWillMount(){
@@ -176,6 +176,7 @@ class DailyCalendar extends React.Component {
     render() {
         return (
             <div className="calendar">
+            <a href="/auth/logout">logout</a>
                 {this.renderHeader()}
                 {this.renderDays()}
                 {this.renderCells()}
