@@ -12,7 +12,7 @@ module.exports = (app)=>{
     }else{
       //insert the event into that particular user's table
       if(req.body.type==="homework"){
-
+        
       }else{
         //class or events
           mongoose.connection.db.listCollections({name: req.user.id})
