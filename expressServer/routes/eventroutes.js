@@ -5,11 +5,13 @@ const eventTableSchema = require('../models/eventtable');
 
 module.exports = (app)=>{
   app.post('/func/addevent', (req,res)=>{
-    if(req.user==""){
-      res.redirect('/');
+    console.log(req.user);
+    console.log(req.body);
+    if(req.user===undefined){
+      res.send('please login');
     }else{
       //insert the event into that particular user's table
-      if(req.data.type==="homework"){
+      if(req.body.type==="homework"){
 
       }else{
         //class or events
@@ -17,20 +19,22 @@ module.exports = (app)=>{
           .next((err, collinfo)=> {
               if (collinfo) {
                   // The collection exists
-                  
+                  res.send(collinfo.name);
+
               }else{
                 //create a new collection
-                  mongoose.model(req.user.id, eventTableSchema).then(()=>{
-                    mongoose.model(req.user.id).then((eventT)=>{
+                  mongoose.model(req.user.id, eventTableSchema);
+                    const eventT = mongoose.model(req.user.id);
                         new eventT({
-                          name: req.data.name,
-                          description: req.data.description,
-                          type: req.data.type,
+                          date: req.body.date,
+                          events: [{
+                            name: req.body.name,
+                            description: req.body.description,
+                            type: req.body.type,
+                            starttime: req.body.starttime,
+                            endtime: req.body.endtime,
+                          }]
                         }).save().then(event=>res.send("success"));
-                      }
-                    );
-                  }
-                );
               }
           });
       }

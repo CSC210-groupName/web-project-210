@@ -1,16 +1,15 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-module.exports = new Schema({
-  // googleid: String,
-  // userName: String,
-  // password: String,
-  // name: String
-
+const eventSchema=new Schema({
   name: String,
   description: String,
   type: String,
-  // date: ,
-  // starttime: ,
-  // endtime: ,
+  starttime: Date,
+  endtime: Date,
+});
+
+module.exports = new Schema({
+  date: Date,
+  events: [eventSchema]
 });

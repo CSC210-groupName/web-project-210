@@ -52,16 +52,21 @@ class EventAdder extends React.Component {
 
   onEventSubmit = (event) => {
     event.preventDefault();
+    console.log(this.state);
     var success;
-    axios.post('http://127.0.0.1:8080/newevent', {
-      username: localStorage.getItem("username"),
-      date: this.state['eDate'],
-      starttime: this.state['sTime'],
-      endtime: this.state['eTime'],
-      eventname: this.state['eName'],
-      eventdesc: this.state['eDesc'],
+    axios.post('/func/addevent', {
+      // date: this.state['eDate'],
+      // starttime: this.state['sTime'],
+      // endtime: this.state['eTime'],
+      date: Date.now(),
+      starttime: Date.now(),
+      endtime: Date.now(),
+      name: this.state['eName'],
+      type: 'class',
+      description: this.state['eDesc'],
     }).then(function(response) {
-      success = response.data.success;
+      success = response.data;
+      console.log(success);
       document.getElementById("feedback").innerHTML='Result: '+ success;
     });
     this.setState({
