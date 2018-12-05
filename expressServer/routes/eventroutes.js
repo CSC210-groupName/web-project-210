@@ -13,29 +13,24 @@ module.exports = (app)=>{
       //insert the event into that particular user's table
       if(req.body.type==="homework"){
 
-      }else{
+      } else{
         //class or events
             mongoose.connection.db.listCollections({name: req.user.id})
           .next((err, collinfo)=> {
-              if (collinfo) {
-                  // The collection exists
-                  res.send(collinfo.name);
-
-              }else{
-                //create a new collection
-                  mongoose.model(req.user.id, eventTableSchema);
-                    const eventT = mongoose.model(req.user.id);
-                        new eventT({
-                          date: req.body.date,
-                          events: [{
-                            name: req.body.name,
-                            description: req.body.description,
-                            type: req.body.type,
-                            starttime: req.body.starttime,
-                            endtime: req.body.endtime,
-                          }]
-                        }).save().then(event=>res.send("success"));
+              if (!collinfo) {
+                mongoose.model(req.user.id, eventTableSchema);
               }
+              const eventT = mongoose.model(req.user.id);
+              new eventT({
+                date: req.body.date,
+                events: [{
+                  name: req.body.name,
+                  description: req.body.description,
+                  type: req.body.type,
+                  starttime: req.body.starttime,
+                  endtime: req.body.endtime,
+                }]
+              }).save().then(event=>res.send("success"));
           });
       }
 

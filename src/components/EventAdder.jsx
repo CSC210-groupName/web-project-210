@@ -55,12 +55,12 @@ class EventAdder extends React.Component {
     console.log(this.state);
     var success;
     axios.post('/func/addevent', {
-      // date: this.state['eDate'],
-      // starttime: this.state['sTime'],
-      // endtime: this.state['eTime'],
-      date: Date.now(),
-      starttime: Date.now(),
-      endtime: Date.now(),
+      date: this.state['eDate'],
+      starttime: this.state['sTime'],
+      endtime: this.state['eTime'],
+      //date: Date.now(),
+      //starttime: Date.now(),
+      //endtime: Date.now(),
       name: this.state['eName'],
       type: 'class',
       description: this.state['eDesc'],
@@ -101,11 +101,11 @@ class EventAdder extends React.Component {
         <div>
           <form onSubmit={this.onEventSubmit}>
             Start Time: <br></br>
-            <input value={this.state.sTime} onChange={this.onsTimeChange} /> <br></br>
+            <input type="time" value={this.state.sTime} onChange={this.onsTimeChange} /> <br></br>
             End Time: <br></br>
-            <input value={this.state.eTime} onChange={this.oneTimeChange} /> <br></br>
+            <input type="time" value={this.state.eTime} onChange={this.oneTimeChange} /> <br></br>
             Date: <br></br>
-            <input value={this.state.eDate} onChange={this.oneDateChange} /> <br></br>
+            <input type="date" value={this.state.eDate} onChange={this.oneDateChange} /> <br></br>
             Event Name: <br></br>
             <input value={this.state.eName} onChange={this.oneNameChange} /> <br></br>
             Event Description: <br></br>

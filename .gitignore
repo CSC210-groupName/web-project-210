@@ -24,3 +24,4 @@ yarn-error.log*
 
 # passwords
 secrets.json
+test_db.db

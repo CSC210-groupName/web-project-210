@@ -25,7 +25,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "sexpress": "npm run dev --prefix expressServer",
-    "dev": "concurrently \"npm run sexpress\" \"npm start\""
+    "dev": "concurrently \"npm run sexpress\" \"npm start\" \"python server/server.py\""
   },
   "eslintConfig": {
     "extends": "react-app"

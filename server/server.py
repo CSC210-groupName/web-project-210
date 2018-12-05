@@ -3,6 +3,8 @@ from flask import Flask, request, session
 from flask_cors import CORS
 from argon2 import PasswordHasher
 import sqlite3
+import pymongo
+from pymongo import MongoClient
 app = Flask(__name__)
 CORS(app)
 
@@ -193,5 +195,11 @@ if __name__ == '__main__':
     sqlite_file = './test_db.db';
     ph = PasswordHasher();
     dbInitialized = initDB();
+    connection = pymongo.MongoClient('ds249233.mlab.com', 49233)
+    db = connection['csc210-project-dev']
+    db.authenticate('Sarah', 'password210')
+    users = db['users']
+    print(type(users))
+    print(users.find_one())
     if (dbInitialized):
 	    app.run(debug=True, port=8080) #run app in debug mode on port 5000
