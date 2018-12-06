@@ -21,6 +21,16 @@ class DailyCalendar extends React.Component {
     }
 
     componentWillMount(){
+      if(!document.getElementById('page_css')) {
+          var link = document.createElement('link');
+          link.id = 'page_css';
+          link.rel = 'stylesheet';
+          link.href="indexStyle.css";
+        document.head.appendChild(link);
+        }else{
+          var link1 = document.getElementById('page_css');
+          link1.href="monthCal.css";
+        }
       axios.get('/auth/current_user').then(res=>{
         //console.log(typeof res.data);
         if(res.data===""){
@@ -180,9 +190,13 @@ class DailyCalendar extends React.Component {
     render() {
         return (
             <div className="calendar">
-            <a href="/auth/logout">logout</a><br></br>
-            <a href="/add_event">new event</a><br></br>
-            <a href="/add_assignment">new assignment</a>
+                <div className="nav-container">
+                    <a href="/auth/logout">Logout</a>
+                    <div className="nav-right">
+                        <a href="/add_event">New Event</a>
+                        <a href="/add_assignment">New Assignment</a>
+                    </div>
+                </div>
                 {this.renderHeader()}
                 {this.renderDays()}
                 {this.renderCells()}
