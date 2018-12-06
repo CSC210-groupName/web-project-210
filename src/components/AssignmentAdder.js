@@ -2,6 +2,9 @@ import React from "react";
 import axios from 'axios';
 import List from './List';
 import { Redirect } from 'react-router';
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
 
 class AssignmentAdder extends React.Component {
 
@@ -10,7 +13,7 @@ class AssignmentAdder extends React.Component {
       var link = document.createElement('link');
       link.id = 'page_css';
       link.rel = 'stylesheet';
-      link.href="indexStyle.css";
+      link.href="addevent.css";
     document.head.appendChild(link);
     }else{
       var link1 = document.getElementById('page_css');
@@ -92,24 +95,46 @@ class AssignmentAdder extends React.Component {
     }
     return (
       <div className="assignemntAdder">
-        <h2>
-          Assignment Adder
-        </h2>
         <div>
           <p id="loginmessage"></p>
         </div>
-        <div>
+        <div className="form-style-6">
+          <h1>
+            Assignment Adder
+          </h1>
           <form onSubmit={this.onAssignmentSubmit}>
-            Assignment Name: <br></br>
-            <input value={this.state.name} onChange={this.onNameChange} /> <br></br>
-            Due Date: <br></br>
-            <input type="date" value={this.state.dueDate} onChange={this.onDueDateChange} /> <br></br>
-            Time Due: <br></br>
-            <input type="time" value={this.state.dueTime} onChange={this.onDueTimeChange} /> <br></br>
-            How many hours do you think this assignment will take?: <br></br>
-            <input type="number" min="1" value={this.state.estimateTime} onChange={this.onEstimateTimeChange} /> <br></br>
-            How long are you willing to work consecutively on a single day?: <br></br>
-            <input type="number" min="1" max="24" value={this.state.maxTimeConsecutive} onChange={this.onMaxTimeConsecutiveChange} /> <br></br>
+            <p>Assignment Name:</p>
+            <input 
+              type="text"
+              value={this.state.name} 
+              onChange={this.onNameChange} />
+            <p>Due Date:</p>
+            <DatePicker 
+              selected={this.state.DueDate}
+              value={this.state.dueDate} 
+              onChange={this.onDueDateChange} />
+            <p>Time Due:</p>
+            <DatePicker 
+              type="time" 
+              selected={this.state.dueTime} 
+              onChange={this.onDueTimeChange}
+              showTimeSelect showTimeSelectOnly
+              timeIntervals={10}
+              dateFormat="h:mm aa"
+              timeCaption="Time" />
+            <p>How many hours do you think this assignment will take?</p>
+            <input 
+              type="number" 
+              min="1" 
+              value={this.state.estimateTime} 
+              onChange={this.onEstimateTimeChange} />
+            <p>How long are you willing to work consecutively on a single day?</p>
+            <input 
+              type="number" 
+              min="1" 
+              max="24" 
+              value={this.state.maxTimeConsecutive} 
+              onChange={this.onMaxTimeConsecutiveChange} />
             <button>Submit</button>
           </form>
         </div>
