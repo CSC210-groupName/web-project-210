@@ -8,7 +8,7 @@ import { createStore } from "redux";
 
 // import Login from "./components/login";
 // import Signup from "./components/signup";
-import Logsignform from './components/logsignform';
+import LoginForm from './components/loginForm';
 import reducers from "./reducers";
 import Calendar from './components/Calendar';
 import DailyCalendar from "./components/DailyCalendar"
@@ -28,7 +28,7 @@ ReactDOM.render(
         <Route path="/add_event" component={EventAdder}/>
         <Route path="/day" component={DailyCalendar}/>
         <Route path="/cal" component={Calendar}/>
-        <Route path="/" component={Logsignform}/>
+        <Route path="/" component={LoginForm}/>
       </Switch>
     </BrowserRouter>
     </div>
