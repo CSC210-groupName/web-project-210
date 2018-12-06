@@ -135,7 +135,7 @@ class AssignmentAdder extends React.Component {
               max="24" 
               value={this.state.maxTimeConsecutive} 
               onChange={this.onMaxTimeConsecutiveChange} />
-            <button>Submit</button>
+            <button id="submit">Submit</button>
           </form>
         </div>
 

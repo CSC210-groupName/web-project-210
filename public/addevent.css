@@ -72,7 +72,7 @@ form{
 	border: 1px solid #1a8fff;
 }
 
-.form-style-6 button{
+.form-style-6 #submit{
 	font-family: "Roboto", sans-serif;
   	text-transform: uppercase;
   	outline: 0;

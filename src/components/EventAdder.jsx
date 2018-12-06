@@ -132,7 +132,7 @@ class EventAdder extends React.Component {
             <DatePicker 
               selected={this.state.eDate} 
               onChange={this.handleChange} />
-            <button>Submit</button>
+            <button id="submit">Submit</button>
           </form>
         </div>
 
