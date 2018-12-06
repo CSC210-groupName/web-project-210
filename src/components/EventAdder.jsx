@@ -2,6 +2,9 @@ import React from "react";
 import axios from 'axios';
 import List from './List';
 import { Redirect } from 'react-router';
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
 
 class EventAdder extends React.Component {
 
@@ -21,25 +24,35 @@ class EventAdder extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      sTime: '',
-      eTime: '',
-      eDate: '',
+      sTime: new Date(),
+      eTime: new Date(),
+      eDate: new Date(),
       eName: '',
       eDesc: '',
       items: []
     };
+    this.handleChange = this.handleChange.bind(this);
+    this.handlesTimeChange = this.handlesTimeChange.bind(this);
+    this.handleeTimeChange = this.handleeTimeChange.bind(this);
   }
 
-  onsTimeChange = (event) => {
-    this.setState({ sTime: event.target.value });
+  handlesTimeChange(date){
+    this.setState({
+      sTime: date
+    });
   }
 
-  oneTimeChange = (event) => {
-    this.setState({ eTime: event.target.value });
+  handleeTimeChange(date){
+    this.setState({
+      eTime: date
+    });
   }
 
-  oneDateChange = (event) => {
-    this.setState({ eDate: event.target.value });
+  handleChange(date) {
+    this.setState({
+      eDate: date
+    });
+    //console.log(this.state.eDate);
   }
 
   oneNameChange = (event) => {
@@ -52,15 +65,15 @@ class EventAdder extends React.Component {
 
   onEventSubmit = (event) => {
     event.preventDefault();
-    console.log(this.state);
+    console.log(this.state.eDate.toString());
     var success;
     axios.post('/func/addevent', {
       // date: this.state['eDate'],
       // starttime: this.state['sTime'],
       // endtime: this.state['eTime'],
-      date: Date.now(),
-      starttime: Date.now(),
-      endtime: Date.now(),
+      date: this.state.eDate.getTime(),
+      starttime: this.state.sTime.getTime(),
+      endtime: this.state.eTime.getTime(),
       name: this.state['eName'],
       type: 'class',
       description: this.state['eDesc'],
@@ -69,27 +82,17 @@ class EventAdder extends React.Component {
       console.log(success);
       document.getElementById("feedback").innerHTML='Result: '+ success;
     });
-    this.setState({
-      sTime: '',
-      eTime: '',
-      eDate: '',
-      eName: '',
-      eDesc: '',
-      items: [this.state.sTime, this.state.eTime, this.state.eDate, this.state.eName, this.state.eDesc]
-    });
+    // this.setState({
+    //   sTime: '',
+    //   eTime: '',
+    //   eDate: new Date(),
+    //   eName: '',
+    //   eDesc: '',
+    //   items: [this.state.sTime, this.state.eTime, this.state.eDate, this.state.eName, this.state.eDesc]
+    // });
   }
 
   render() {
-    if (localStorage.getItem("username") === null) {
-      return (
-            <Redirect
-            to={{
-              pathname: '/login',
-              state: 'Please sign in!'
-            }}
-          />
-        )
-    }
     return (
       <div className="eventAdder">
         <h2>
@@ -100,12 +103,23 @@ class EventAdder extends React.Component {
         </div>
         <div>
           <form onSubmit={this.onEventSubmit}>
+
+
             Start Time: <br></br>
-            <input value={this.state.sTime} onChange={this.onsTimeChange} /> <br></br>
+            <DatePicker selected={this.state.sTime} onChange={this.handlesTimeChange} showTimeSelect showTimeSelectOnly
+                  timeIntervals={10}
+                  dateFormat="h:mm aa"
+                  timeCaption="Time"
+            /> <br></br>
             End Time: <br></br>
-            <input value={this.state.eTime} onChange={this.oneTimeChange} /> <br></br>
+            <DatePicker selected={this.state.eTime} onChange={this.handleeTimeChange} showTimeSelect showTimeSelectOnly
+                  timeIntervals={10}
+                  dateFormat="h:mm aa"
+                  timeCaption="Time"
+            /> <br></br>
             Date: <br></br>
-            <input value={this.state.eDate} onChange={this.oneDateChange} /> <br></br>
+            <DatePicker selected={this.state.eDate} onChange={this.handleChange} /> <br></br>
+
             Event Name: <br></br>
             <input value={this.state.eName} onChange={this.oneNameChange} /> <br></br>
             Event Description: <br></br>
@@ -115,7 +129,6 @@ class EventAdder extends React.Component {
         </div>
 
         <div>
-          <List items={this.state.items} />
           <p id="feedback"></p>
         </div>
 

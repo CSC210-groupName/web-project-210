@@ -5,11 +5,11 @@ const eventSchema=new Schema({
   name: String,
   description: String,
   type: String,
-  starttime: Date,
-  endtime: Date,
+  starttime: Number,
+    endtime: Number,
 });
 
 module.exports = new Schema({
-  date: Date,
+  date: Number,
   events: [eventSchema]
 });
