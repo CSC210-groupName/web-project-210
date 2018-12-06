@@ -4,9 +4,9 @@ import axios from "axios";
 
 class DailyCalendar extends React.Component {
     state = {
-        currentDay: new Date(),
-        currentMonth: new Date(),
-        selectedDate: new Date()
+        currentDay: this.props.location.state.currentDay,
+        currentMonth: this.props.location.state.currentMonth,
+        selectedDate: this.props.location.state.selectedDate
     };
 
     componentWillMount(){
@@ -86,32 +86,25 @@ class DailyCalendar extends React.Component {
         let days = [];
         let hour = 0;
         const endHour = 23;
-        let time = 6;
+        let time = 12;
 
         while (hour <= endHour) {
 
             for (let i = 0; i < 2; i++) {
                 if (i == 0) {
-                    if (hour<6){
+                    if (hour<12){
                         days.push(
                             <div className="col cell timedisplay">
                                 <span>{time}:00 am</span>
                             </div>
                         );
-                    } if (6<=hour && hour<18) {
+                    } if (12<=hour && hour<24) {
                         days.push(
                             <div className="col cell timedisplay">
                                 <span>{time}:00 pm</span>
                             </div>
                         );
-                    } if (hour>=18) {
-                        days.push(
-                            <div className="col cell timedisplay">
-                                <span>{time}:00 am</span>
-                            </div>
-                        );
-                    }
-
+                    } 
                 } else {
                     days.push(
                         <div className="col cell">
@@ -176,6 +169,9 @@ class DailyCalendar extends React.Component {
     render() {
         return (
             <div className="calendar">
+            <a href="/auth/logout">logout</a><br></br>
+            <a href="/add_event">new event</a><br></br>
+            <a href="/add_assignment">new assignment</a>
                 {this.renderHeader()}
                 {this.renderDays()}
                 {this.renderCells()}

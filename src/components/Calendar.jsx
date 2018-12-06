@@ -127,6 +127,16 @@ class Calendar extends React.Component {
         this.setState({
             selectedDate: day
         });
+        var month = this.state.currentMonth;
+        var date = this.state.selectedDate;
+        this.props.history.push({
+            pathname: '/day', 
+            state: { 
+                currentDay: day,
+                currentMonth: month,
+                selectedDate: date     
+            }
+        });
     };
 
     nextMonth = () => {
@@ -156,7 +166,13 @@ class Calendar extends React.Component {
     render() {
         return (
             <div className="calendar">
-              <a href="/auth/logout">logout</a>
+                <div className="nav-container">
+                    <a href="/auth/logout">Logout</a>
+                    <div className="nav-right">
+                        <a href="/add_event">New Event</a>
+                        <a href="/add_assignment">New Assignment</a>
+                    </div>
+                </div>
                 {this.renderHeader()}
                 {this.renderDays()}
                 {this.renderCells()}

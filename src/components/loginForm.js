@@ -2,7 +2,7 @@ import React from 'react';
 import Login from './login';
 import Signup from './signup';
 
-export default class Logsignform extends React.Component{
+export default class LoginForm extends React.Component{
 
 
   componentWillMount(){
@@ -21,7 +21,7 @@ export default class Logsignform extends React.Component{
 
   render(){
     return (
-      <div id="logsignform">
+      <div id="loginForm">
         <Login />
         <Signup />
       </div>

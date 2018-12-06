@@ -86,19 +86,19 @@ class signup extends Component{
         <form onSubmit={this.SignupHandler}>
           <h3>User SignUp</h3>
           <label className="prompt">UserName</label><br />
-          <input type="text" name="Username" className="logsigninput"
+          <input type="text" name="Username" className="loginInput"
           onChange={(event)=> this.setState({UserName: event.target.value})}
           value={this.state.UserName}
           required/>
           <br/>
           <label className="prompt">Your Name</label><br />
-          <input type="text" name="name" className="logsigninput"
+          <input type="text" name="name" className="loginInput"
           onChange={(event)=> this.setState({name: event.target.value})}
           value={this.state.name}
           required/>
           <br/>
           <label className="prompt">Pasword</label><br />
-          <input type="password" name="password" className="logsigninput"
+          <input type="password" name="password" className="loginInput"
           onChange={(event)=> this.setState({password: event.target.value})}
           value={this.state.password}
           required />
