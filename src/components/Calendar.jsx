@@ -166,9 +166,13 @@ class Calendar extends React.Component {
     render() {
         return (
             <div className="calendar">
-              <a href="/auth/logout">logout</a>
-              <a href="/add_event">new event</a>
-              <a href="/add_assignment">new assignment</a>
+                <div className="nav-container">
+                    <a href="/auth/logout">Logout</a>
+                    <div className="nav-right">
+                        <a href="/add_event">New Event</a>
+                        <a href="/add_assignment">New Assignment</a>
+                    </div>
+                </div>
                 {this.renderHeader()}
                 {this.renderDays()}
                 {this.renderCells()}

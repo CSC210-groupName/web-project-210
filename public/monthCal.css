@@ -31,6 +31,8 @@
   --border-color: #eee;
   --bg-color: #f9f9f9;
   --neutral-color: #fff;
+  --button-color: #dbeeff;
+  --button-color-dark: #bddfff;;
 }
 
 
@@ -74,6 +76,29 @@ main {
   margin: 0 auto;
   margin-top: 5em;
   max-width: 50em;
+}
+
+.nav-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.nav-right {
+  display: flex;
+}
+
+.nav-container a {
+  padding: 5px 10px;
+  margin: 5px;
+  text-decoration: none;
+  color: var(--text-color);
+  background-color: var(--button-color);
+  border-radius: 10px;
+}
+
+.nav-container a:hover {
+  background-color: var(--button-color-dark);
 }
 
 
