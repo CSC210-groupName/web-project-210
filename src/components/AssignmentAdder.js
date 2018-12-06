@@ -11,7 +11,7 @@ class AssignmentAdder extends React.Component {
   componentWillMount(){
     axios.get('/auth/current_user').then(res=>{
       //console.log(typeof res.data);
-      if(res.data===""){
+      if(!res.data.user){
         console.log("Redirect");
         this.props.history.push('/');
       }

@@ -81,7 +81,7 @@ class EventAdder extends React.Component {
       starttime: this.state.sTime.getTime(),
       endtime: this.state.eTime.getTime(),
       name: this.state['eName'],
-      type: 'class',
+      type: 'event',
       description: this.state['eDesc'],
     }).then(function(response) {
       success = response.data;

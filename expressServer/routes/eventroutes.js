@@ -39,8 +39,8 @@ module.exports = (app)=>{
       //if not able to finish: fill up the blanks, don't add at all
   });
 
-  app.post('func/addassignment', requireAuth, (req, res)=>{
-
+  app.post('/func/addassignment', requireAuth, (req, res)=>{
+    
   })
 
 
