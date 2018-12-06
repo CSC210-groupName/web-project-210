@@ -22,12 +22,12 @@ class AssignmentAdder extends React.Component {
     super(props);
     this.state = {
       name: '',
-      dueDate: '',
-      dueTime: '',
+      dueDate: new Date(),
+      dueDateTime: new Date(),
       //potentially have start date as well?
-      estimateTime: '',
-      maxTimeConsecutive: '',
-      items: []
+      estimateTime: 0,
+      maxTimeConsecutive: 0,
+      // items: []
     };
   }
 
@@ -75,21 +75,21 @@ class AssignmentAdder extends React.Component {
       dueTime: '',
       estimateTime: '',
       maxTimeConsecutive: '',
-      items: [this.state.name, this.state.dueDate, this.state.dueTime, this.state.estimateTime, this.state.maxTimeConsecutive]
+//      items: [this.state.name, this.state.dueDate, this.state.dueTime, this.state.estimateTime, this.state.maxTimeConsecutive]
     });
   }
 
   render() {
-    if (localStorage.getItem("username") === null) {
-      return (
-            <Redirect
-            to={{
-              pathname: '/login',
-              state: 'Please sign in!'
-            }}
-          />
-        )
-    }
+    // if (localStorage.getItem("username") === null) {
+    //   return (
+    //         <Redirect
+    //         to={{
+    //           pathname: '/login',
+    //           state: 'Please sign in!'
+    //         }}
+    //       />
+    //     )
+    // }
     return (
       <div className="assignemntAdder">
         <h2>
@@ -115,7 +115,6 @@ class AssignmentAdder extends React.Component {
         </div>
 
         <div>
-          <List items={this.state.items} />
           <p id="feedback"></p>
         </div>
 
