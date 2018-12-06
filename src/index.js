@@ -11,9 +11,9 @@ import { createStore } from "redux";
 import LoginForm from './components/loginForm';
 import reducers from "./reducers";
 import Calendar from './components/Calendar';
-import DailyCalendar from "./components/DailyCalendar"
-import EventAdder from "./components/EventAdder"
-import AssignmentAdder from "./components/AssignmentAdder"
+import DailyCalendar from "./components/DailyCalendar";
+import EventAdder from "./components/EventAdder";
+import AssignmentAdder from "./components/AssignmentAdder";
 import { BrowserRouter, Route, Link } from 'react-router-dom';
 
 import { Switch } from 'react-router';
