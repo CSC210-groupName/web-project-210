@@ -1,0 +1,93 @@
+<style type="text/css">
+.form-style-6{
+	font: 95% Arial, Helvetica, sans-serif;
+	max-width: 400px;
+	margin: 10px auto;
+	padding: 16px;
+	background: #F7F7F7;
+}
+.form-style-6 h1{
+	background: #1a8fff;
+	padding: 20px 0;
+	font-size: 140%;
+	font-weight: 300;
+	text-align: center;
+	color: #fff;
+	margin: -16px -16px 16px -16px;
+}
+
+.form-style-6 p{
+	font-family: "Roboto", sans-serif;
+  	-webkit-font-smoothing: antialiased;
+  	-moz-osx-font-smoothing: grayscale;
+}
+
+form{
+  position: relative;
+  z-index: 1;
+  background: #FFFFFF;
+  max-width: 360px;
+  margin: 0 auto 100px;
+  padding: 45px;
+  text-align: center;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
+.form-style-6 input[type="text"],
+.form-style-6 input[type="number"],
+.form-style-6 textarea,
+.form-style-6 select, 
+.form-style-6 DatePicker
+{
+	-webkit-transition: all 0.30s ease-in-out;
+	-moz-transition: all 0.30s ease-in-out;
+	-ms-transition: all 0.30s ease-in-out;
+	-o-transition: all 0.30s ease-in-out;
+	outline: none;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	width: 50%;
+	background: #fff;
+	margin-bottom: 2%;
+	border: 1px solid #ccc;
+	padding: 3%;
+	color: #555;
+	font: 95% Arial, Helvetica, sans-serif;
+  	outline: 0;
+  	background: #f2f2f2;
+  	border: 0;
+  	margin: 0 0 15px;
+  	padding: 15px;
+  	box-sizing: border-box;
+  	font-size: 14px;
+}
+.form-style-6 input[type="text"]:focus,
+.form-style-6 textarea:focus,
+.form-style-6 select:focus,
+.form-style-6 DatePicker:focus
+{
+	box-shadow: 0 0 5px #1a8fff;
+	padding: 3%;
+	border: 1px solid #1a8fff;
+}
+
+.form-style-6 #submit{
+	font-family: "Roboto", sans-serif;
+  	text-transform: uppercase;
+  	outline: 0;
+  	background: #1a8fff;
+  	width: 100%;
+  	border: 0;
+  	padding: 15px;
+  	color: #FFFFFF;
+  	font-size: 14px;
+  	-webkit-transition: all 0.3 ease;
+  	transition: all 0.3 ease;
+  	cursor: pointer;
+  	margin: 0px 0 15px;
+}
+.form-style-6 button:hover{
+	background: #005cb3;
+}
+</style>

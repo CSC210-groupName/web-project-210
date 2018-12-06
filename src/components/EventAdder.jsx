@@ -95,36 +95,44 @@ class EventAdder extends React.Component {
   render() {
     return (
       <div className="eventAdder">
-        <h2>
-          Event Adder
-        </h2>
         <div>
           <p id="loginmessage"></p>
         </div>
-        <div>
+        <div className="form-style-6">
+          <h1>
+            Event Adder
+          </h1>
           <form onSubmit={this.onEventSubmit}>
-
-
-            Start Time: <br></br>
-            <DatePicker selected={this.state.sTime} onChange={this.handlesTimeChange} showTimeSelect showTimeSelectOnly
-                  timeIntervals={10}
-                  dateFormat="h:mm aa"
-                  timeCaption="Time"
-            /> <br></br>
-            End Time: <br></br>
-            <DatePicker selected={this.state.eTime} onChange={this.handleeTimeChange} showTimeSelect showTimeSelectOnly
-                  timeIntervals={10}
-                  dateFormat="h:mm aa"
-                  timeCaption="Time"
-            /> <br></br>
-            Date: <br></br>
-            <DatePicker selected={this.state.eDate} onChange={this.handleChange} /> <br></br>
-
-            Event Name: <br></br>
-            <input value={this.state.eName} onChange={this.oneNameChange} /> <br></br>
-            Event Description: <br></br>
-            <textarea value={this.state.eDesc} onChange={this.oneDescChange} /> <br></br>
-            <button>Submit</button>
+            <p>Event Name:</p>
+            <input 
+              type="text" 
+              value={this.state.eName} 
+              onChange={this.oneNameChange} />
+            <p>Event Description:</p>
+            <textarea 
+              value={this.state.eDesc} 
+              onChange={this.oneDescChange} />
+            <p>Start Time:</p>
+            <DatePicker 
+              selected={this.state.sTime} 
+              onChange={this.handlesTimeChange} 
+              showTimeSelect showTimeSelectOnly
+              timeIntervals={10}
+              dateFormat="h:mm aa"
+              timeCaption="Time" />
+            <p>End Time:</p>
+            <DatePicker 
+              selected={this.state.eTime} 
+              onChange={this.handleeTimeChange} 
+              showTimeSelect showTimeSelectOnly
+              timeIntervals={10}
+              dateFormat="h:mm aa"
+              timeCaption="Time" />
+            <p>Date:</p>
+            <DatePicker 
+              selected={this.state.eDate} 
+              onChange={this.handleChange} />
+            <button id="submit">Submit</button>
           </form>
         </div>
 
