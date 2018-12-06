@@ -28,6 +28,19 @@ class login extends Component{
     this.showSignUpForm = this.showSignUpForm.bind(this);
   }
 
+  componentWillMount(){
+    if(!document.getElementById('page_css')) {
+        var link = document.createElement('link');
+        link.id = 'page_css';
+        link.rel = 'stylesheet';
+        link.href="index.css";
+      document.head.appendChild(link);
+      }else{
+        var link1 = document.getElementById('page_css');
+        link1.href="index.css";
+      }
+    }
+
 
   LoginHandler(event){
     event.preventDefault();
@@ -37,76 +50,59 @@ class login extends Component{
       password: this.state['password']
     }).then(function(response) {
       success = response.data;
-
       if(success==="success"){
         console.log(success);
-        document.getElementById("loginFeedback").innerHTML='Result: '+ response.data;
-        //vanilla js works after all....
+        document.getElementById("loginFeedback").innerHTML=response.data;
         window.location.href = '/cal';
       }else{
-        document.getElementById("loginFeedback").innerHTML='Result: invalid userName or password';
+        document.getElementById("loginFeedback").innerHTML='Invalid username or password';
       }
-      //localStorage.setItem("username", username);
-
     });
 
-//this function means we are good to login
     if (success) {
       this.props.login_successful();
     }
 
-    //user feedbacks for different situation
-    //document.getElementById("loginFeedback").innerHTML="login successful";
-    //document.getElementById("loginFeedback").innerHTML="Username NOT found";
-    //document.getElementById("loginFeedback").innerHTML="Password is incorrect";
-
-
-
-    //state here contains the value for submit, great place for validation
-    //axios makes http request to the backend
     this.setState({UserName : "", password : ""});
   }
 
   showSignUpForm(){
     //here button handling
     this.setState({UserName : "", password : ""});
-    document.getElementById("loginForm").style.display="none";
-    document.getElementById("signupForm").style.display="block";
+    document.getElementById("login-page").style.display="none";
+    document.getElementById("signup-page").style.display="block";
     document.getElementById("loginFeedback").innerHTML="";
 
   }
 
   render() {
     return (
-      <div id="loginForm">
-        <form onSubmit={this.LoginHandler}>
-          <h3>User Login</h3>
-          <label className="prompt">UserName</label>
-          <br/>
-          <input type="text" 
-                 name="Username" 
-                 className="loginInput"
-                 onChange={(event)=> this.setState({UserName: event.target.value})}
-                 value={this.state.UserName}
-                 required/>
-          <br/>
-          <label className="prompt">Password</label>
-          <br/>
-          <input type="password" 
-                 name="password" 
-                 className="loginInput"
-                 onChange={(event)=> this.setState({password: event.target.value})}
-                 value={this.state.password}
-                 required/>
-          <br/>
-          <input type="submit" value="login"/>
-          <p>Don't have a account? SignUp <input type="button" value="here" onClick={this.showSignUpForm}/></p>
-        </form>
-        <a href="/auth/google">login with Google Oauth</a>
-        <div>
-          <p id="loginFeedback"></p>
+
+      <div id="login-page">
+        <div className="form">
+        <form className="login-form" onSubmit={this.LoginHandler}>
+            <input type="text" 
+                  placeholder="username" 
+                  name = "Username" 
+                  onChange={(event)=> this.setState({UserName: event.target.value})}
+                  value={this.state.UserName}
+                  required/>
+            <input type="password" 
+                  placeholder="password"
+                  name="password"
+                  onChange={(event)=> this.setState({password: event.target.value})}
+                  value={this.state.password}
+                  required/>
+            <button>Log in</button>
+          </form>
+          <button onClick={this.showSignUpForm}>Create an account</button>
+          <a href="/auth/google">Login with Google Oauth</a>
+          <div>
+            <p id="loginFeedback"></p>
+          </div>
         </div>
       </div>
+
     );
   }
 }

@@ -25,6 +25,19 @@ class signup extends Component{
     this.showloginForm=this.showloginForm.bind(this);
   }
 
+  componentWillMount(){
+  if(!document.getElementById('page_css')) {
+      var link = document.createElement('link');
+      link.id = 'page_css';
+      link.rel = 'stylesheet';
+      link.href="index.css";
+    document.head.appendChild(link);
+    }else{
+      var link1 = document.getElementById('page_css');
+      link1.href="index.css";
+    }
+  }
+
 
   SignupHandler(event){
     event.preventDefault();
@@ -56,63 +69,54 @@ class signup extends Component{
 
     });
 
-  //  this.props.signup();
-    //state here contains the value for submit, great place for validation
-    //axios
-    //document.getElementById("SignUpFeedback").innerHTML="SignUp successful";
-
-    //document.getElementById("SignUpFeedback").innerHTML="USername already taken";
-
-
     this.setState({UserName : "", password : "", name: ""});   //clears up the form
   }
 
   showloginForm(){
     //here button handling
     this.setState({UserName : "", password : "", name: ""});
-    document.getElementById("loginForm").style.display="block";
-    document.getElementById("signupForm").style.display="none";
+    document.getElementById("login-page").style.display="block";
+    document.getElementById("signup-page").style.display="none";
     document.getElementById("SignUpFeedback").innerHTML="";
 
 
   }
 
 
-
   render() {
-
     return (
-      <div id="signupForm" style={this.hideDisplay}>
-        <form onSubmit={this.SignupHandler}>
-          <h3>User SignUp</h3>
-          <label className="prompt">UserName</label><br />
-          <input type="text" name="Username" className="loginInput"
-          onChange={(event)=> this.setState({UserName: event.target.value})}
-          value={this.state.UserName}
-          required/>
-          <br/>
-          <label className="prompt">Your Name</label><br />
-          <input type="text" name="name" className="loginInput"
-          onChange={(event)=> this.setState({name: event.target.value})}
-          value={this.state.name}
-          required/>
-          <br/>
-          <label className="prompt">Pasword</label><br />
-          <input type="password" name="password" className="loginInput"
-          onChange={(event)=> this.setState({password: event.target.value})}
-          value={this.state.password}
-          required />
-          <br/>
-          <input type="submit" value="SignUp"/>
-          <p>Already have a account? Login <input type="button" value="here" onClick={this.showloginForm}/></p>
-        </form>
-        <div>
-          <p id="SignUpFeedback"></p>
+      <div id="signup-page" style={{display: 'none'}}>
+        <div className="form">
+        <form className="login-form" onSubmit={this.SignupHandler}>
+            <input type="text"
+                  placeholder = "your name"
+                  name="name"
+                  onChange={(event)=> this.setState({name: event.target.value})}
+                  value={this.state.name}
+                  required/>
+            <input type="text" 
+                  placeholder="username" 
+                  name = "Username" 
+                  onChange={(event)=> this.setState({UserName: event.target.value})}
+                  value={this.state.UserName}
+                  required/>
+            <input type="password" 
+                  placeholder="password"
+                  name="password"
+                  onChange={(event)=> this.setState({password: event.target.value})}
+                  value={this.state.password}
+                  required/>
+            <button>Sign Up</button>
+          </form>
+          <button onClick={this.showloginForm}>Go to login</button>
+            <a href="/auth/google">Signup with Google Oauth</a>
+          <div>
+            <p id="SignUpFeedback"></p>
+          </div>
         </div>
       </div>
     );
   }
-
 }
 
 
