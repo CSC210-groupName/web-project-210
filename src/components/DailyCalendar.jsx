@@ -103,6 +103,11 @@ class DailyCalendar extends React.Component {
 
     renderCells() {
 
+        axios.post('/func/getevents', {
+            date: this.state.currentDay
+        }).then(function(response) {
+            
+        });
         const rows = [];
         let days = [];
         let hour = 0;
@@ -127,6 +132,7 @@ class DailyCalendar extends React.Component {
                         );
                     }
                 } else {
+                    //this is where we put event information when it is the correct hour
                     days.push(
                         <div className="col cell">
                         </div>

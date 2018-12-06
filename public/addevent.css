@@ -1,3 +1,4 @@
+/*https://www.sanwebe.com/2014/08/css-html-forms-designs*/
 <style type="text/css">
 .form-style-6{
 	font: 95% Arial, Helvetica, sans-serif;
@@ -47,7 +48,7 @@ form{
 	box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
-	width: 50%;
+	width: 100%;
 	background: #fff;
 	margin-bottom: 2%;
 	border: 1px solid #ccc;

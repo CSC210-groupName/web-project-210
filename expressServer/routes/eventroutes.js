@@ -43,7 +43,28 @@ module.exports = (app)=>{
     
   })
 
-
-
-
+  // gets all the events for the given day
+  app.post('/func/getevents', requireAuth, (req, res) => {
+    var datesDB = mongoose.model(req.user.id, eventTableSchema);
+    var query = datesDB.find({"date": { 
+        '$gte': Date.parse(req.body.date),
+        '$lte': Date.parse(req.body.date) + 86400000
+       }});
+    const result = [];
+    query.exec(function(err,events){
+      if(err)
+        return console.log(err);
+      events.forEach(function(event){
+        var eventData = {
+          eName: event.events[0].name,
+          sTimeHour: new Date(event.events[0].starttime).getHours(),
+          sTimeMinute: new Date(event.events[0].starttime).getMinutes(),
+          eTimeHour: new Date(event.events[0].endtime).getHours(),
+          eTimeMinute: new Date(event.events[0].endtime).getMinutes()
+        };
+        result.push(eventData);
+      });
+      res.send(result);
+    });
+  });
 };
