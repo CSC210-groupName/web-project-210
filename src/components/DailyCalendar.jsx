@@ -3,11 +3,22 @@ import dateFns from "date-fns";
 import axios from "axios";
 
 class DailyCalendar extends React.Component {
-    state = {
-        currentDay: this.props.location.state.currentDay,
-        currentMonth: this.props.location.state.currentMonth,
-        selectedDate: this.props.location.state.selectedDate
-    };
+    constructor(props, context) {
+        super(props, context);
+        if (this.props.location.state===undefined) {
+            this.state = {
+               currentDay: new Date(),
+               currentMonth: new Date(),
+               selectedDate: new Date()
+            };
+        } else {
+            this.state = {
+                currentDay: this.props.location.state.currentDay,
+                currentMonth: this.props.location.state.currentMonth,
+                selectedDate: this.props.location.state.selectedDate
+            }
+        }
+    }
 
     componentWillMount(){
       axios.get('/auth/current_user').then(res=>{
