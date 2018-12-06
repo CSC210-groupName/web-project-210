@@ -68,18 +68,12 @@ class EventAdder extends React.Component {
     console.log(this.state.eDate.toString());
     var success;
     axios.post('/func/addevent', {
-<<<<<<< HEAD
       // date: this.state['eDate'],
       // starttime: this.state['sTime'],
       // endtime: this.state['eTime'],
       date: this.state.eDate.getTime(),
       starttime: this.state.sTime.getTime(),
       endtime: this.state.eTime.getTime(),
-=======
-      date: this.state['eDate'],
-      starttime: this.state['sTime'],
-      endtime: this.state['eTime'],
->>>>>>> 06a5e784fd272705c269ab7bc2b13dcfae534255
       name: this.state['eName'],
       type: 'class',
       description: this.state['eDesc'],
@@ -112,28 +106,11 @@ class EventAdder extends React.Component {
 
 
             Start Time: <br></br>
-<<<<<<< HEAD
-            <DatePicker selected={this.state.sTime} onChange={this.handlesTimeChange} showTimeSelect showTimeSelectOnly
-                  timeIntervals={10}
-                  dateFormat="h:mm aa"
-                  timeCaption="Time"
-            /> <br></br>
-            End Time: <br></br>
-            <DatePicker selected={this.state.eTime} onChange={this.handleeTimeChange} showTimeSelect showTimeSelectOnly
-                  timeIntervals={10}
-                  dateFormat="h:mm aa"
-                  timeCaption="Time"
-            /> <br></br>
-            Date: <br></br>
-            <DatePicker selected={this.state.eDate} onChange={this.handleChange} /> <br></br>
-
-=======
             <input type="time" value={this.state.sTime} onChange={this.onsTimeChange} /> <br></br>
             End Time: <br></br>
             <input type="time" value={this.state.eTime} onChange={this.oneTimeChange} /> <br></br>
             Date: <br></br>
             <input type="date" value={this.state.eDate} onChange={this.oneDateChange} /> <br></br>
->>>>>>> 06a5e784fd272705c269ab7bc2b13dcfae534255
             Event Name: <br></br>
             <input value={this.state.eName} onChange={this.oneNameChange} /> <br></br>
             Event Description: <br></br>
