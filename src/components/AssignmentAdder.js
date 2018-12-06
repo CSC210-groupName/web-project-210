@@ -9,6 +9,13 @@ import "react-datepicker/dist/react-datepicker.css";
 class AssignmentAdder extends React.Component {
 
   componentWillMount(){
+    axios.get('/auth/current_user').then(res=>{
+      //console.log(typeof res.data);
+      if(res.data===""){
+        console.log("Redirect");
+        this.props.history.push('/');
+      }
+    });
     if(!document.getElementById('page_css')) {
       var link = document.createElement('link');
       link.id = 'page_css';
@@ -104,36 +111,36 @@ class AssignmentAdder extends React.Component {
           </h1>
           <form onSubmit={this.onAssignmentSubmit}>
             <p>Assignment Name:</p>
-            <input 
+            <input
               type="text"
-              value={this.state.name} 
+              value={this.state.name}
               onChange={this.onNameChange} />
             <p>Due Date:</p>
-            <DatePicker 
+            <DatePicker
               selected={this.state.DueDate}
-              value={this.state.dueDate} 
+              value={this.state.dueDate}
               onChange={this.onDueDateChange} />
             <p>Time Due:</p>
-            <DatePicker 
-              type="time" 
-              selected={this.state.dueTime} 
+            <DatePicker
+              type="time"
+              selected={this.state.dueTime}
               onChange={this.onDueTimeChange}
               showTimeSelect showTimeSelectOnly
               timeIntervals={10}
               dateFormat="h:mm aa"
               timeCaption="Time" />
             <p>How many hours do you think this assignment will take?</p>
-            <input 
-              type="number" 
-              min="1" 
-              value={this.state.estimateTime} 
+            <input
+              type="number"
+              min="1"
+              value={this.state.estimateTime}
               onChange={this.onEstimateTimeChange} />
             <p>How long are you willing to work consecutively on a single day?</p>
-            <input 
-              type="number" 
-              min="1" 
-              max="24" 
-              value={this.state.maxTimeConsecutive} 
+            <input
+              type="number"
+              min="1"
+              max="24"
+              value={this.state.maxTimeConsecutive}
               onChange={this.onMaxTimeConsecutiveChange} />
             <button id="submit">Submit</button>
           </form>

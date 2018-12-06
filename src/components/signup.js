@@ -26,16 +26,16 @@ class signup extends Component{
   }
 
   componentWillMount(){
-  if(!document.getElementById('page_css')) {
-      var link = document.createElement('link');
-      link.id = 'page_css';
-      link.rel = 'stylesheet';
-      link.href="index.css";
-    document.head.appendChild(link);
-    }else{
-      var link1 = document.getElementById('page_css');
-      link1.href="index.css";
-    }
+  // if(!document.getElementById('page_css')) {
+  //     var link = document.createElement('link');
+  //     link.id = 'page_css';
+  //     link.rel = 'stylesheet';
+  //     link.href="index.css";
+  //   document.head.appendChild(link);
+  //   }else{
+  //     var link1 = document.getElementById('page_css');
+  //     link1.href="index.css";
+  //   }
   }
 
 
@@ -94,13 +94,13 @@ class signup extends Component{
                   onChange={(event)=> this.setState({name: event.target.value})}
                   value={this.state.name}
                   required/>
-            <input type="text" 
-                  placeholder="username" 
-                  name = "Username" 
+            <input type="text"
+                  placeholder="username"
+                  name = "Username"
                   onChange={(event)=> this.setState({UserName: event.target.value})}
                   value={this.state.UserName}
                   required/>
-            <input type="password" 
+            <input type="password"
                   placeholder="password"
                   name="password"
                   onChange={(event)=> this.setState({password: event.target.value})}

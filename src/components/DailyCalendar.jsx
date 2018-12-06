@@ -37,9 +37,9 @@ class DailyCalendar extends React.Component {
           console.log("Redirect");
           this.props.history.push('/');
         }
-      })
+      });
     }
-    
+
     renderHeader() {
         const dateFormat = "dddd - MMMM D, YYYY";
 
@@ -125,7 +125,7 @@ class DailyCalendar extends React.Component {
                                 <span>{time}:00 pm</span>
                             </div>
                         );
-                    } 
+                    }
                 } else {
                     days.push(
                         <div className="col cell">

@@ -25,7 +25,7 @@ class Calendar extends React.Component {
           console.log("Redirect");
           this.props.history.push('/');
         }
-      })
+      });
     }
 
     renderHeader() {
@@ -140,11 +140,11 @@ class Calendar extends React.Component {
         var month = this.state.currentMonth;
         var date = this.state.selectedDate;
         this.props.history.push({
-            pathname: '/day', 
-            state: { 
+            pathname: '/day',
+            state: {
                 currentDay: day,
                 currentMonth: month,
-                selectedDate: date     
+                selectedDate: date
             }
         });
     };

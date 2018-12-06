@@ -1,20 +1,16 @@
 const mongoose = require('mongoose');
 const axios= require('axios');
 const eventTableSchema = require('../models/eventtable');
-
+const requireAuth = require('../middlewares/requireAuth');
 
 module.exports = (app)=>{
-  app.post('/func/addevent', (req,res)=>{
-    console.log(req.user);
+  app.post('/func/addevent',requireAuth,(req,res)=>{
     console.log(req.body);
-    if(req.user===undefined){
-      res.send('please login');
-    }else{
-      //insert the event into that particular user's table
-      if(req.body.type==="homework"){
-        
-      }else{
-        //class or events
+
+
+
+      //insert the event into that particular user's tabl
+      //asumming NO CONFLICT
           mongoose.connection.db.listCollections({name: req.user.id})
           .next((err, collinfo)=> {
               mongoose.model(req.user.id, eventTableSchema);
@@ -30,9 +26,6 @@ module.exports = (app)=>{
                 }]
               }).save().then(event=>res.send("success"));
           });
-      }
-
-
 
       //if not homework: resolved by express
       //const status: success, conflict
@@ -44,6 +37,13 @@ module.exports = (app)=>{
       //specs: not able to finish, have to give up some events
       //if have to give up events: options
       //if not able to finish: fill up the blanks, don't add at all
-    }
   });
+
+  app.post('func/addassignment', requireAuth, (req, res)=>{
+
+  })
+
+
+
+
 };
