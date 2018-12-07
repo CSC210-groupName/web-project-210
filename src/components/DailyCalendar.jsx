@@ -104,10 +104,15 @@ class DailyCalendar extends React.Component {
     }
 
     renderCells() {
+        console.log(this.state.currentDay);
         axios.post('/func/getevents', {
             date: this.state.currentDay
         }).then(function(response) {
-           for (var j = 0; j < response.data.length; j++) {
+            for (var hour = 0; hour < 24; hour++) {
+                document.getElementById(hour).removeAttribute("style");
+                document.getElementById(hour).innerHTML='';
+            }
+            for (var j = 0; j < response.data.length; j++) {
             var sHour = response.data[j].sTimeHour;
             var sMin = response.data[j].sTimeMinute;
             var eHour = response.data[j].eTimeHour;
@@ -118,13 +123,14 @@ class DailyCalendar extends React.Component {
                 if (i === sHour) {
                     var pix = sMin/10;
                     var pix = pix + "em";
-                    var size = (6-pix) + "em";
                     document.getElementById(i).style.top=pix;
-                    document.getElementById(i).style.height=size;
+                    if (eHour===sHour) {
+                        var e = eMin/10 + "em";
+                        document.getElementById(i).style.height=e;
+                    }
                 }
-                if (i === eHour) {
-                    var pix = eMin/10;
-                    var pix = pix + "em";
+                else if (i === eHour) {
+                    var pix = eMin/10 + "em";
                     document.getElementById(i).style.height=pix;
                 }
                 // chooses a random color for the event, probably will change to have user pick
@@ -213,24 +219,28 @@ class DailyCalendar extends React.Component {
         this.setState({
             currentDay: dateFns.addDays(this.state.currentDay, 1)
         });
+        this.componentWillMount();
     };
 
     prevDay = () => {
         this.setState({
             currentDay: dateFns.subDays(this.state.currentDay, 1)
         });
+        this.componentWillMount();
     };
 
     nextWeek = () => {
         this.setState({
             currentDay: dateFns.addDays(this.state.currentDay, 7)
         });
+        this.componentWillMount();
     };
 
     prevWeek = () => {
         this.setState({
             currentDay: dateFns.subDays(this.state.currentDay, 7)
         });
+        this.componentWillMount();
     };
 
     render() {
