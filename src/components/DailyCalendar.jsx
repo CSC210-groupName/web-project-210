@@ -1,3 +1,5 @@
+/*credit for base code: https://blog.flowandform.agency/create-a-custom-calendar-in-react-3df1bfd0b728*/
+
 import React from "react";
 import dateFns from "date-fns";
 import axios from "axios";
@@ -27,11 +29,11 @@ class DailyCalendar extends React.Component {
           var link = document.createElement('link');
           link.id = 'page_css';
           link.rel = 'stylesheet';
-          link.href="indexStyle.css";
+          link.href="dayCal.css";
         document.head.appendChild(link);
         }else{
           var link1 = document.getElementById('page_css');
-          link1.href="monthCal.css";
+          link1.href="dayCal.css";
         }
       axios.get('/auth/current_user').then(res=>{
         //console.log(typeof res.data);
@@ -113,37 +115,26 @@ class DailyCalendar extends React.Component {
                 document.getElementById(hour).innerHTML='';
             }
             for (var j = 0; j < response.data.length; j++) {
-            var sHour = response.data[j].sTimeHour;
-            var sMin = response.data[j].sTimeMinute;
-            var eHour = response.data[j].eTimeHour;
-            var eMin = response.data[j].eTimeMinute;
-            var name = response.data[j].eName;
-            var colors = ['#0066ff', '#9900ff', '#00cc00', '#ffcc00', '#ff33cc', '#cc0000', '#ff6600', '#33ccff']
-            for (var i = sHour; i <= eHour; i++) {
-                if (i === sHour) {
-                    var pix = sMin/10;
-                    var t = pix + "em";
-                    var h = 6-pix + "em";
-                    document.getElementById(i).style.top=t;
-                    document.getElementById(i).style.height=h;
-                    if (eHour===sHour) {
-                        var e = eMin/10 + "em";
-                        document.getElementById(i).style.height=e;
-                    }
-                }
-                else if (i === eHour) {
-                    var pix = eMin/10 + "em";
-                    document.getElementById(i).style.height=pix;
-                }
-                // chooses a random color for the event, probably will change to have user pick
-                document.getElementById(i).style.background=colors[j%7]; 
-                if (i === sHour) {
+                var sHour = response.data[j].sTimeHour;
+                var sMin = response.data[j].sTimeMinute;
+                var eHour = response.data[j].eTimeHour;
+                var eMin = response.data[j].eTimeMinute;
+                var name = response.data[j].eName;
+                var idName = name.replace(/\s+/g, '');
+                var colors = ['#0066ff', '#9900ff', '#00cc00', '#ffcc00', '#ff33cc', '#cc0000', '#ff6600', '#33ccff']
+                var fullHeight = (eHour-sHour)*6 + (eMin - sMin)/10;
+                var t = (sMin/10) + "em";
+                var elementStyle = document.getElementById(sHour).style;
+                elementStyle.top=t;
+                elementStyle.height=fullHeight;
+                elementStyle.zIndex=5;
+                    // chooses a random color for the event, probably will change to have user pick
+                    document.getElementById(sHour).style.background=colors[j%7]; 
                     if(eMin===0){eMin="00";} if(sMin===0){sMin="00";}
-                    document.getElementById(i).innerHTML=
-                    "<b>" + name + "</b>--<small>" + sHour + ":" 
-                    + sMin + "-" + eHour + ":" + eMin +"</small>";
-                }
-            }
+                    document.getElementById(sHour).innerHTML+=
+                    "<div id=" + sHour + idName +"><b>" + name + "</b>--<small>" + sHour + ":" 
+                    + sMin + "-" + eHour + ":" + eMin +"</small></div>";
+                //}
            } 
         });
 
@@ -171,7 +162,6 @@ class DailyCalendar extends React.Component {
                         );
                     }
                 } else {
-                //this is where we put event information when it is the correct hour
                     days.push(
                         <div id={hour} className="col cell event">
                         </div>

@@ -189,7 +189,6 @@ main {
 .calendar .body .cell {
   position: relative;
   height: 5em;
-  overflow: hidden;
   cursor: pointer;
   background: var(--neutral-color);
   transition: 0.25s ease-out;
