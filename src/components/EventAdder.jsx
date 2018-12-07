@@ -89,10 +89,12 @@ class EventAdder extends React.Component {
       success = response.data;
       console.log(success);
       document.getElementById("feedback").innerHTML='Result: '+ success;
+      var inputDate = that.state['eDate'];
+      var date = new Date(inputDate.getFullYear(), inputDate.getMonth(), inputDate.getDate(), 0, 0, 0);
       that.props.history.push({
             pathname: '/day',
             state: {
-                currentDay: that.state['eDate']
+                currentDay: date
             }
         });
     });

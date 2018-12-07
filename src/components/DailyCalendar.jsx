@@ -130,9 +130,7 @@ class DailyCalendar extends React.Component {
                 // chooses a random color for the event, probably will change to have user pick
                 document.getElementById(i).style.background=colors[j%7]; 
                 if (i === sHour) {
-                    if (eMin === 0) {
-                        eMin = "00";
-                    }
+                    if(eMin===0){eMin="00";} if(sMin===0){sMin="00";}
                     document.getElementById(i).innerHTML=
                     "<b>" + name + "</b>--<small>" + sHour + ":" 
                     + sMin + "-" + eHour + ":" + eMin +"</small>";
