@@ -107,7 +107,7 @@ class DailyCalendar extends React.Component {
         console.log(this.state.currentDay);
         axios.post('/func/getevents', {
             date: this.state.currentDay
-        }).then(function(response) {
+        }).then(function(response) { //sorry this code is a huge mess
             for (var hour = 0; hour < 24; hour++) {
                 document.getElementById(hour).removeAttribute("style");
                 document.getElementById(hour).innerHTML='';
@@ -122,8 +122,10 @@ class DailyCalendar extends React.Component {
             for (var i = sHour; i <= eHour; i++) {
                 if (i === sHour) {
                     var pix = sMin/10;
-                    var pix = pix + "em";
-                    document.getElementById(i).style.top=pix;
+                    var t = pix + "em";
+                    var h = 6-pix + "em";
+                    document.getElementById(i).style.top=t;
+                    document.getElementById(i).style.height=h;
                     if (eHour===sHour) {
                         var e = eMin/10 + "em";
                         document.getElementById(i).style.height=e;
