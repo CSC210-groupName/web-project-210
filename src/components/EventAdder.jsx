@@ -40,6 +40,7 @@ class EventAdder extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handlesTimeChange = this.handlesTimeChange.bind(this);
     this.handleeTimeChange = this.handleeTimeChange.bind(this);
+    this.onEventSubmit = this.onEventSubmit.bind(this);
   }
 
   handlesTimeChange(date){
@@ -73,6 +74,7 @@ class EventAdder extends React.Component {
     event.preventDefault();
     console.log(this.state.eDate.toString());
     var success;
+    var that = this;
     axios.post('/func/addevent', {
       // date: this.state['eDate'],
       // starttime: this.state['sTime'],
@@ -82,11 +84,17 @@ class EventAdder extends React.Component {
       endtime: this.state.eTime.getTime(),
       name: this.state['eName'],
       type: 'event',
-      description: this.state['eDesc'],
+      description: this.state['eDesc']
     }).then(function(response) {
       success = response.data;
       console.log(success);
       document.getElementById("feedback").innerHTML='Result: '+ success;
+      that.props.history.push({
+            pathname: '/day',
+            state: {
+                currentDay: that.state['eDate']
+            }
+        });
     });
   }
 

@@ -188,11 +188,15 @@ main {
 .calendar .body .cell {
   position: relative;
   height: 5em;
-  border-right: 1px solid var(--border-color);
   overflow: hidden;
   cursor: pointer;
   background: var(--neutral-color);
   transition: 0.25s ease-out;
+}
+
+.calendar .body .cell.timedisplay {
+  border-right: 1px solid var(--border-color);
+  height: 6em;
 }
 
 .calendar .body .cell:hover {
@@ -250,7 +254,7 @@ main {
   transition: .5s ease-in;
 }
 
-.calendar .body .col {
+.calendar .body .col.timedisplay {
   flex-grow: 0;
   flex-basis: calc(100%/7);
   width: calc(100%/7);
@@ -258,6 +262,10 @@ main {
 
 .calendar .body .cell.event {
   color: white;
+  width: calc(100%/7);
+  margin: 0em;
+  line-height: 1;
+  height: 6em;
 }
 
 /* body {

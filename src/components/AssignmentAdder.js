@@ -33,24 +33,25 @@ class AssignmentAdder extends React.Component {
     this.state = {
       name: '',
       dueDate: new Date(),
-      dueDateTime: new Date(),
+      dueTime: new Date(),
       //potentially have start date as well?
       estimateTime: 0,
       maxTimeConsecutive: 0,
-      // items: []
     };
+    this.handleDueDateChange = this.handleDueDateChange.bind(this);
+    this.handleDueTimeChange = this.handleDueTimeChange.bind(this);
   }
 
   onNameChange = (event) => {
     this.setState({ name: event.target.value });
   }
 
-  onDueDateChange = (event) => {
-    this.setState({ dueDate: event.target.value });
+  handleDueDateChange(date) {
+    this.setState({ dueDate: date });
   }
 
-  onDueTimeChange = (event) => {
-    this.setState({ dueTime: event.target.value });
+  handleDueTimeChange (date) {
+    this.setState({ dueTime: date });
   }
 
   onEstimateTimeChange = (event) => {
@@ -117,14 +118,13 @@ class AssignmentAdder extends React.Component {
               onChange={this.onNameChange} />
             <p>Due Date:</p>
             <DatePicker
-              selected={this.state.DueDate}
-              value={this.state.dueDate}
-              onChange={this.onDueDateChange} />
+              selected={this.state.dueDate}
+              onChange={this.handleDueDateChange} />
             <p>Time Due:</p>
             <DatePicker
               type="time"
               selected={this.state.dueTime}
-              onChange={this.onDueTimeChange}
+              onChange={this.handleDueTimeChange}
               showTimeSelect showTimeSelectOnly
               timeIntervals={10}
               dateFormat="h:mm aa"
