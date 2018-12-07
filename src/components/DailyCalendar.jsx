@@ -106,8 +106,19 @@ class DailyCalendar extends React.Component {
         axios.post('/func/getevents', {
             date: this.state.currentDay
         }).then(function(response) {
-            
+           console.log(response.data);
+           for (var j = 0; j < response.data.length; j++) {
+            var sHour = response.data[j].sTimeHour;
+            var eHour = response.data[j].eTimeHour;
+            var name = response.data[j].eName;
+            var colors = ['#0066ff', '#9900ff', '#00cc00', '#ffcc00', '#ff33cc', '#cc0000', '#ff6600', '#33ccff']
+            for (var i = sHour; i < eHour; i++) {
+                document.getElementById(i).style.background=colors[j%7];
+                document.getElementById(i).innerHTML=name;
+            }
+           } 
         });
+
         const rows = [];
         let days = [];
         let hour = 0;
@@ -132,9 +143,9 @@ class DailyCalendar extends React.Component {
                         );
                     }
                 } else {
-                    //this is where we put event information when it is the correct hour
+                //this is where we put event information when it is the correct hour
                     days.push(
-                        <div className="col cell">
+                        <div id={hour} className="col cell event">
                         </div>
                     );
                 }

@@ -256,9 +256,9 @@ main {
   width: calc(100%/7);
 }
 
-
-
-
+.calendar .body .cell.event {
+  color: white;
+}
 
 /* body {
   margin: 0;
