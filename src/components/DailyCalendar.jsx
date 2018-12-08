@@ -167,21 +167,23 @@ class DailyCalendar extends React.Component {
                 var eHourDisplay = eHour<10 ? ("0"+eHour) : eHour;
 
                 // Actually creating the event display here!!!
-                document.getElementById("row"+sHour+"col"+colNum).innerHTML+=
-                "<div id=" + idName +" class=userEvent><b>" + name + "</b><br/><small class=eTime>" + sHourDisplay + ":" 
-                + sMin + "-" + eHourDisplay + ":" + eMin +"</small></div>";
-                var elementStyle = document.getElementById(idName).style;
-                var divStyle = document.getElementById("row"+sHour+"col"+colNum).style;
-                elementStyle.background=colors[j%7];
-                divStyle.top=t;
-                elementStyle.height=fullHeight;
-                divStyle.zIndex=5;
+                if (colNum <= 6) {
+                    document.getElementById("row"+sHour+"col"+colNum).innerHTML+=
+                    "<div id=" + idName +" class=userEvent><b>" + name + "</b><br/><small class=eTime>" + sHourDisplay + ":" 
+                    + sMin + "-" + eHourDisplay + ":" + eMin +"</small></div>";
+                    var elementStyle = document.getElementById(idName).style;
+                    var divStyle = document.getElementById("row"+sHour+"col"+colNum).style;
+                    elementStyle.background=colors[j%7];
+                    divStyle.top=t;
+                    elementStyle.height=fullHeight;
+                    divStyle.zIndex=5;
 
-                // colNum-1 (since colNum is 1-indexed) should only ever be 1 more than last col in eventsAdded
-                if (!eventsAdded[colNum-1]) {
-                    eventsAdded.push([]);
+                    // colNum-1 (since colNum is 1-indexed) should only ever be 1 more than last col in eventsAdded
+                    if (!eventsAdded[colNum-1]) {
+                        eventsAdded.push([]);
+                    }
+                    eventsAdded[colNum-1].push(response.data[j]);
                 }
-                eventsAdded[colNum-1].push(response.data[j]);
            } 
         });
 
