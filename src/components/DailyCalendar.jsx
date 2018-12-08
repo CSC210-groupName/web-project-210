@@ -22,6 +22,8 @@ class DailyCalendar extends React.Component {
                 selectedDate: this.props.location.state.selectedDate
             }
         }
+        this.checkTimeOverlap = this.checkTimeOverlap.bind(this);
+        this.createTime = this.createTime.bind(this);
     }
 
     componentWillMount(){
@@ -106,35 +108,80 @@ class DailyCalendar extends React.Component {
     }
 
     renderCells() {
+        var self = this;
         console.log(this.state.currentDay);
+        // Pulling all the events for the current day
         axios.post('/func/getevents', {
             date: this.state.currentDay
         }).then(function(response) { //sorry this code is a huge mess
+
+            // Resets for each new /day page
             for (var hour = 0; hour < 24; hour++) {
-                document.getElementById(hour).removeAttribute("style");
-                document.getElementById(hour).innerHTML='';
+                for (var col = 1; col < 7; col++){
+                    var divid = "row"+hour+"col"+col;
+                    document.getElementById(divid).removeAttribute("style");
+                    document.getElementById(divid).innerHTML='';
+                }
             }
+
+            // Adding events, very complicated, please be careful with this code <3
+            var eventsAdded = [];
             for (var j = 0; j < response.data.length; j++) {
-                var sHour = response.data[j].sTimeHour;
-                var sMin = response.data[j].sTimeMinute;
-                var eHour = response.data[j].eTimeHour;
-                var eMin = response.data[j].eTimeMinute;
-                var name = response.data[j].eName;
-                var idName = name.replace(/\s+/g, '');
+                var colNum = 1;
+                var event = response.data[j],
+                    sHour = event.sTimeHour,
+                    name = event.eName,
+                    idName = sHour+name.replace(/\s+/g, '');
+                for (var c = 0; c < eventsAdded.length; c++) {
+
+                    // At this point, colNum should always equal c+1. Otherwise there is a bug
+                    var overlap = false,
+                        column = eventsAdded[c];
+                    for (var k = 0; k < column.length; k++) {
+                        var colEvent = column[k];
+                        if (self.checkTimeOverlap(event, colEvent)) {
+
+                            // If there is an overlap, move to the next column
+                            overlap = true;
+                            colNum++;
+                            break;
+                        }
+                    }
+                    if (!overlap) {
+                        break;
+                    }
+                }
+
+                event.col = colNum;
+                var sHour = event.sTimeHour,
+                    sMin = event.sTimeMinute,
+                    eHour = event.eTimeHour,
+                    eMin = event.eTimeMinute;
                 var colors = ['#0066ff', '#9900ff', '#00cc00', '#ffcc00', '#ff33cc', '#cc0000', '#ff6600', '#33ccff']
-                var fullHeight = (eHour-sHour)*6 + (eMin - sMin)/10;
-                var t = (sMin/10) + "em";
-                var elementStyle = document.getElementById(sHour).style;
-                elementStyle.top=t;
+                var fullHeight = ((eHour-sHour)*6 + (eMin - sMin)/10) + "em";
+                var t = (sMin/10) + "em"; 
+
+                // Formatting display times
+                if(eMin===0){eMin="00";} if(sMin===0){sMin="00";} 
+                var sHourDisplay = sHour<10 ? ("0"+sHour) : sHour;
+                var eHourDisplay = eHour<10 ? ("0"+eHour) : eHour;
+
+                // Actually creating the event display here!!!
+                document.getElementById("row"+sHour+"col"+colNum).innerHTML+=
+                "<div id=" + idName +" class=userEvent><b>" + name + "</b><br/><small class=eTime>" + sHourDisplay + ":" 
+                + sMin + "-" + eHourDisplay + ":" + eMin +"</small></div>";
+                var elementStyle = document.getElementById(idName).style;
+                var divStyle = document.getElementById("row"+sHour+"col"+colNum).style;
+                elementStyle.background=colors[j%7];
+                divStyle.top=t;
                 elementStyle.height=fullHeight;
-                elementStyle.zIndex=5;
-                    // chooses a random color for the event, probably will change to have user pick
-                    document.getElementById(sHour).style.background=colors[j%7]; 
-                    if(eMin===0){eMin="00";} if(sMin===0){sMin="00";}
-                    document.getElementById(sHour).innerHTML+=
-                    "<div id=" + sHour + idName +"><b>" + name + "</b>--<small>" + sHour + ":" 
-                    + sMin + "-" + eHour + ":" + eMin +"</small></div>";
-                //}
+                divStyle.zIndex=5;
+
+                // colNum-1 (since colNum is 1-indexed) should only ever be 1 more than last col in eventsAdded
+                if (!eventsAdded[colNum-1]) {
+                    eventsAdded.push([]);
+                }
+                eventsAdded[colNum-1].push(response.data[j]);
            } 
         });
 
@@ -162,14 +209,13 @@ class DailyCalendar extends React.Component {
                         );
                     }
                 } else {
-                    days.push(
-                        <div id={hour} className="col cell event">
-                        </div>
-                    ); 
-                    days.push(
-                        <div id={hour} className="col cell event">
-                        </div>
-                    );
+                    for (var i = 1; i < 7; i++) {
+                        var divid = "row"+hour+"col"+i;
+                        days.push(
+                            <div id={divid} className="col cell event">
+                            </div>
+                        ); 
+                    }
                 }
             }
 
@@ -181,8 +227,9 @@ class DailyCalendar extends React.Component {
                 time=1;
             }
 
+            var rowid = "row" + hour;
             rows.push(
-                <div className="row" key={hour}>
+                <div id={rowid} className="row" key={hour}>
                     {days}
                 </div>
             );
@@ -193,6 +240,24 @@ class DailyCalendar extends React.Component {
 
         return <div className="body">{rows}</div>;
 
+    }
+
+    createTime(hour, min) {
+        return hour;// * 60 + min;
+    }
+
+    checkTimeOverlap(event1, event2) {
+        var sTime1 = this.createTime(event1.sTimeHour, event1.sTimeMinute);
+        var sTime2 = this.createTime(event2.sTimeHour, event2.sTimeMinute);
+        var eTime1 = this.createTime(event1.eTimeHour, event1.eTimeMinute);
+        var eTime2 = this.createTime(event2.eTimeHour, event2.eTimeMinute);
+        if (sTime1 === sTime2) {
+            return true;
+        }
+        if (sTime1 < sTime2) {
+            return eTime1 > sTime2;
+        }
+        return sTime1 < eTime2;
     }
 
     calReturn = () => {
