@@ -5,36 +5,22 @@ const requireAuth = require('../middlewares/requireAuth');
 
 module.exports = (app)=>{
   app.post('/func/addevent', (req,res)=>{
-
-      //insert the event into that particular user's tabl
-      //asumming NO CONFLICT
-          mongoose.connection.db.listCollections({name: req.user.id})
-          .next((err, collinfo)=> {
-              mongoose.model(req.user.id, eventTableSchema);
-              const eventT = mongoose.model(req.user.id);
-              new eventT({
-                date: req.body.date,
-                events: [{
-                  name: req.body.name,
-                  description: req.body.description,
-                  type: req.body.type,
-                  starttime: req.body.starttime,
-                  endtime: req.body.endtime,
-                  color: req.body.color
-                }]
-              }).save().then(event=>res.send("success"));
-          });
-
-      //if not homework: resolved by express
-      //const status: success, conflict
-      //conflict: options
-
-      //if homework
-      //send to python for additional analysis
-      //const status: success, conflict
-      //specs: not able to finish, have to give up some events
-      //if have to give up events: options
-      //if not able to finish: fill up the blanks, don't add at all
+    mongoose.connection.db.listCollections({name: req.user.id})
+    .next((err, collinfo)=> {
+        mongoose.model(req.user.id, eventTableSchema);
+        const eventT = mongoose.model(req.user.id);
+        new eventT({
+          date: req.body.date,
+          events: [{
+            name: req.body.name,
+            description: req.body.description,
+            type: req.body.type,
+            starttime: req.body.starttime,
+            endtime: req.body.endtime,
+            color: req.body.color
+          }]
+        }).save().then(event=>res.send("success"));
+    });
   });
 
   app.post('/func/addassignment', requireAuth, (req, res)=>{
@@ -145,10 +131,13 @@ async function addAssignment(req) {
         //console.log(freeTimes);
         var f = 0;
         while (dailyMinLeft > 0) {
-            console.log(freeTimes);
-            console.log("Minutes Left Today " + dailyMinLeft);
+            if (f === freeTimes.length) {
+              if (timeBlock > 60) {
+                timeBlock -= 60;
+                f = 0;
+              }
+            }
             if (freeTimes[f].length > timeBlock) {
-              console.log("plenty of time for homework");
               homeworkEvent = {
                 date: schedulingDay,
                 starttime: createTimeInMilli(schedulingDay, freeTimes[f].sTime),
