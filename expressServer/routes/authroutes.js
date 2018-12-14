@@ -47,7 +47,6 @@ module.exports = (app)=>{
 });
 
   app.post('/auth/signupdefault',(req,res)=>{
-    console.log(req.body);
       const name=req.body.name;
       const username = req.body.username;
       const password = req.body.password;
@@ -55,8 +54,6 @@ module.exports = (app)=>{
         userName: username
       }).then(existingUser=>{
         if(existingUser){
-          //user already existing
-          //console.log("found a user");
           res.send('UserName already existed');
         }else{
           console.log("creating new");
