@@ -68,20 +68,35 @@ class AssignmentAdder extends React.Component {
   }
 
   onAssignmentSubmit = (event) => {
+    var self = this;
     event.preventDefault();
     //console.log(this.state);
     var success;
     // TODO will need an endpoint for adding assignments
 
+    var thisName = "Submit " + this.state.name,
+        thisDueDate = this.state.dueDate.getTime(),
+        thisDueTimeStart = this.state.dueTime.getTime(),
+        thisDueTimeEnd = this.state.dueTime.getTime() + 600000,
+        thisColor = this.state.color
+
     axios.post('/func/addassignment', {
       name: this.state.name,
       dueDate: this.state.dueDate.getTime(),
-      dueTime: this.state.dueTime.getTime(),
       estimateTime: this.state.estimateTime,
       maxTimeConsecutive: this.state.maxTimeConsecutive,
       color: this.state.color
     }).then(function(response) {
       console.log(response.data);
+      axios.post('/func/addevent', {
+        date: thisDueDate,
+        starttime: thisDueTimeStart,
+        endtime: thisDueTimeEnd,
+        name: thisName,
+        type: 'homework',
+        description: '',
+        color: thisColor
+      })
       for (var i = 0; i < response.data.length; i++) {
         axios.post('/func/addevent', {
           date: response.data[i].date+1,
