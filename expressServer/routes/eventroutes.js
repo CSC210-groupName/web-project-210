@@ -113,6 +113,7 @@ async function addAssignment(req) {
   var numMinsPerDay = (req.body.estimateTime/numDaysBetween)*60;
   var numMinsLeftTotal = req.body.estimateTime*60;
   var schedulingDay = new Date(); schedulingDay.setHours(0,0,0,0); schedulingDay = Date.parse(schedulingDay);
+  var leftoverMins = 0;
   // while we have not yet spent enough time on the assignment
   while (numMinsLeftTotal > 0) {
     
@@ -136,17 +137,16 @@ async function addAssignment(req) {
         events.sort((obj1, obj2) => obj1.sTime - obj2.sTime);
 
         // initialize how many minutes you must spend on the homework this day
-        var dailyMinLeft = numMinsPerDay;
+        var dailyMinLeft = numMinsPerDay + leftoverMins;
         var timeBlock = req.body.maxTimeConsecutive * 60;
 
         // find all of the free times during the day
         var freeTimes = timeBetweenEvents(events);
-        console.log(freeTimes);
+        //console.log(freeTimes);
         var f = 0;
         while (dailyMinLeft > 0) {
-            console.log(dailyMinLeft);
-            console.log(freeTimes[f]);
-            console.log(timeBlock);
+            console.log(freeTimes);
+            console.log("Minutes Left Today " + dailyMinLeft);
             if (freeTimes[f].length > timeBlock) {
               console.log("plenty of time for homework");
               homeworkEvent = {
@@ -159,6 +159,21 @@ async function addAssignment(req) {
                 color: assignmentColor
               };
               homeworkEvents.push(homeworkEvent);
+              if (f != freeTimes.length -1) {
+                var additionalFreeTime = {
+                  sTime: freeTimes[f].sTime+timeBlock+timeBlock,
+                  eTime: freeTimes[f+1].sTime,
+                  length: freeTimes[f+1].sTime-(freeTimes[f].sTime+timeBlock+timeBlock)
+                }
+                freeTimes.push(additionalFreeTime);
+              } else {
+                var additionalFreeTime = {
+                  sTime: freeTimes[f].sTime+timeBlock+timeBlock,
+                  eTime: freeTimes[f].eTime,
+                  length: freeTimes[f].eTime - (freeTimes[f].sTime+timeBlock+timeBlock)
+                }
+                freeTimes.push(additionalFreeTime);
+              }
               dailyMinLeft-=timeBlock;
               numMinsLeftTotal-=timeBlock;
               if (dailyMinLeft < timeBlock) {
@@ -178,38 +193,46 @@ function timeBetweenEvents(events) {
   var times = [];
   var wake = createTimeInMins(7, 0);
   var sleep = createTimeInMins(23, 59)
-  for (var i = 0; i < events.length-1; i++) {
-    if (i === 0) {
-      var freeTime = {
-        sTime: wake,
-        eTime: events[i].sTime-10,
-        length: events[i].sTime-wake-10
-      }
-      if (freeTime.length > 0) {
-        times.push(freeTime);
-      }
+  if (events.length === 0 ) {
+    var freeTime = {
+      sTime: wake,
+      eTime: sleep,
+      length: sleep - wake
     }
-    if (events[i+1].sTime - events[i].eTime > 0) {
-      var freeTime = {
-        sTime: events[i].eTime+10,
-        eTime: events[i+1].sTime-10,
-        length: events[i+1].sTime-10 - events[i].eTime - 20
-      }
-      if (freeTime.length > 0) {
-        times.push(freeTime);
-      }
-    }
-    if (i+1 === events.length-1) {
-      var freeTime = {
-        sTime: events[i+1].eTime+10,
-        eTime: sleep,
-        length: sleep - events[i+1].eTime - 10
-      }
-      if (freeTime.length > 0) {
-        times.push(freeTime);
-      }
-    }
+    times.push(freeTime);
   }
+    for (var i = 0; i < events.length-1; i++) {
+      if (i === 0) {
+        var freeTime = {
+          sTime: wake,
+          eTime: events[i].sTime-10,
+          length: events[i].sTime-wake-10
+        }
+        if (freeTime.length > 0) {
+          times.push(freeTime);
+        }
+      }
+      if (events[i+1].sTime - events[i].eTime > 0) {
+        var freeTime = {
+          sTime: events[i].eTime+10,
+          eTime: events[i+1].sTime-10,
+          length: events[i+1].sTime-10 - events[i].eTime - 20
+        }
+        if (freeTime.length > 0) {
+          times.push(freeTime);
+        }
+      }
+      if (i+1 === events.length-1) {
+        var freeTime = {
+          sTime: events[i+1].eTime+10,
+          eTime: sleep,
+          length: sleep - events[i+1].eTime - 10
+        }
+        if (freeTime.length > 0) {
+          times.push(freeTime);
+        }
+      }
+    }
   return times;
 }
 
