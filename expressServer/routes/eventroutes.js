@@ -4,7 +4,7 @@ const eventTableSchema = require('../models/eventtable');
 const requireAuth = require('../middlewares/requireAuth');
 
 module.exports = (app)=>{
-  app.post('/func/addevent', (req,res)=>{
+  app.post('/func/addevent', requireAuth, (req,res)=>{
     mongoose.connection.db.listCollections({name: req.user.id})
     .next((err, collinfo)=> {
         mongoose.model(req.user.id, eventTableSchema);
@@ -96,7 +96,6 @@ async function addAssignment(req) {
     // for every day between the day added until the due date
     for (var day = 0; day < numDaysBetween; day++) {
       schedulingDay = schedulingDay + 86400000; // this should get the current day
-      console.log(new Date(schedulingDay));
       // get all of the events occuring during that day
       await getEvents(req.user.id, schedulingDay).then((result) => {
         var events = [];
@@ -118,10 +117,8 @@ async function addAssignment(req) {
 
         // find all of the free times during the day
         var freeTimes = timeBetweenEvents(events);
-        console.log(freeTimes.length);
         var f = 0;
         while (dailyMinLeft > 0) {
-            console.log(f);
             if (f === freeTimes.length-1) {
               if (timeBlock > 60) {
                 timeBlock -= 60;
