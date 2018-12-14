@@ -37,6 +37,7 @@ class AssignmentAdder extends React.Component {
       //potentially have start date as well?
       estimateTime: 0,
       maxTimeConsecutive: 0,
+      color: '#f6b73c'
     };
     this.handleDueDateChange = this.handleDueDateChange.bind(this);
     this.handleDueTimeChange = this.handleDueTimeChange.bind(this);
@@ -62,6 +63,10 @@ class AssignmentAdder extends React.Component {
     this.setState({ maxTimeConsecutive: event.target.value });
   }
 
+  onColorChange = (event) => {
+    this.setState({ color: event.target.value });
+  }
+
   onAssignmentSubmit = (event) => {
     event.preventDefault();
     //console.log(this.state);
@@ -73,11 +78,23 @@ class AssignmentAdder extends React.Component {
       dueDate: this.state.dueDate.getTime(),
       dueTime: this.state.dueTime.getTime(),
       estimateTime: this.state.estimateTime,
-      maxTimeConsecutive: this.state.maxTimeConsecutive
+      maxTimeConsecutive: this.state.maxTimeConsecutive,
+      color: this.state.color
     }).then(function(response) {
-      success = response.data;
-      console.log(success);
-      document.getElementById("feedback").innerHTML='Result: '+ success;
+      console.log(response.data);
+      for (var i = 0; i < response.data.length; i++) {
+        axios.post('/func/addevent', {
+          date: response.data[i].date+1,
+          starttime: response.data[i].starttime,
+          endtime: response.data[i].endtime,
+          name: response.data[i].name,
+          type: 'homework',
+          description: '',
+          color: response.data[i].color
+        }).then(function (res) {
+          console.log(res);
+        });
+      }
     });
     this.setState({
       name: '',
@@ -85,26 +102,17 @@ class AssignmentAdder extends React.Component {
       dueTime: new Date(),
       estimateTime: '',
       maxTimeConsecutive: '',
+      color: '#f6b73c'
     });
   }
 
   render() {
-    // if (localStorage.getItem("username") === null) {
-    //   return (
-    //         <Redirect
-    //         to={{
-    //           pathname: '/login',
-    //           state: 'Please sign in!'
-    //         }}
-    //       />
-    //     )
-    // }
     return (
       <div className="assignemntAdder">
         <div>
           <p id="loginmessage"></p>
         </div>
-        <div className="form-style-6">
+        <div className="form-style">
           <h1>
             Assignment Adder
           </h1>
@@ -140,6 +148,11 @@ class AssignmentAdder extends React.Component {
               max="24"
               value={this.state.maxTimeConsecutive}
               onChange={this.onMaxTimeConsecutiveChange} />
+            <p>Assignment Color:</p>
+            <input 
+              type="color"
+              value={this.state.color}
+              onChange={this.onColorChange} />
             <button id="submit">Submit</button>
           </form>
         </div>

@@ -7,6 +7,7 @@ const eventSchema=new Schema({
   type: String,
   starttime: Number,
     endtime: Number,
+    color: String
 });
 
 module.exports = new Schema({

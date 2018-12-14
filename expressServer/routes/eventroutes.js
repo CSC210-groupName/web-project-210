@@ -4,10 +4,7 @@ const eventTableSchema = require('../models/eventtable');
 const requireAuth = require('../middlewares/requireAuth');
 
 module.exports = (app)=>{
-  app.post('/func/addevent',requireAuth,(req,res)=>{
-    console.log(req.body);
-
-
+  app.post('/func/addevent', (req,res)=>{
 
       //insert the event into that particular user's tabl
       //asumming NO CONFLICT
@@ -23,6 +20,7 @@ module.exports = (app)=>{
                   type: req.body.type,
                   starttime: req.body.starttime,
                   endtime: req.body.endtime,
+                  color: req.body.color
                 }]
               }).save().then(event=>res.send("success"));
           });
@@ -64,79 +62,169 @@ async function getEvents(id, date) {
 
   const result = [];
   events.forEach(function(event){
+    var sTime = new Date(event.events[0].starttime),
+        eTime = new Date(event.events[0].endtime);
     var eventData = {
       eName: event.events[0].name,
-      sTimeHour: new Date(event.events[0].starttime).getHours(),
-      sTimeMinute: new Date(event.events[0].starttime).getMinutes(),
-      eTimeHour: new Date(event.events[0].endtime).getHours(),
-      eTimeMinute: new Date(event.events[0].endtime).getMinutes()
+      sTimeHour: sTime.getHours(),
+      sTimeMinute: sTime.getMinutes(),
+      eTimeHour: eTime.getHours(),
+      eTimeMinute: eTime.getMinutes(),
+      color: event.events[0].color
     };
     result.push(eventData);
   });
   return result;
 }
 
+function createTimeInMilli(date, min) {
+  return date + (min * 60000);
+}
+
+
+function createTimeInMins(hour, min) {
+  return hour * 60 + min;
+}
+
+function minsToTime(mins) {
+  var thismin = mins % 60;
+  var thishour = Math.floor(mins/60);
+  var time = {
+    hour: thishour,
+    min: thismin
+  }
+  return time;
+}
+
+function createDate(hour, min, day) {
+  var date = new Date(day);
+  date.setHours(hour, min, 0, 0);
+  return date;
+}
+
 async function addAssignment(req) {
 
-  //var events = await getEvents(req.user.id, duedate etc etc )
-
-  var assignment = req.body;
-  var numDaysBetween = getNumDaysBetween(new Date(), new Date(req.body.dueDate));
-  var numHoursPerDay = Math.ceil(req.body.estimateTime/numDaysBetween);
-  var numHoursLeft = req.body.estimateTime;
-  while (numHoursLeft > 0) {
+  var assignmentColor = req.body.color;
+  var assignmentName = req.body.name;
+  var homeworkEvents = [];
+  var d = new Date(req.body.dueDate); d.setHours(0,0,0,0); var dueDate = Date.parse(d);
+  var today = new Date(); today.setHours(0,0,0,0);
+  var numDaysBetween = getNumDaysBetween(today, d);
+  var numMinsPerDay = (req.body.estimateTime/numDaysBetween)*60;
+  var numMinsLeftTotal = req.body.estimateTime*60;
+  var schedulingDay = new Date(); schedulingDay.setHours(0,0,0,0); schedulingDay = Date.parse(schedulingDay);
+  // while we have not yet spent enough time on the assignment
+  while (numMinsLeftTotal > 0) {
+    
+    // for every day between the day added until the due date
     for (var day = 0; day < numDaysBetween; day++) {
-      var schedulingDay = req.body.dueDate + 86400000;
-      var dailyHoursLeft = numHoursPerDay;
-      while (dailyHoursLeft > 0) {
+      schedulingDay = schedulingDay + 86400000; // this should get the current day
+      console.log(new Date(schedulingDay));
+      // get all of the events occuring during that day
+      await getEvents(req.user.id, schedulingDay).then((result) => {
+        var events = [];
+        // for each of those events, get the start and end times of them
+        for (var i = 0; i < result.length; i++) {
+          var event = {
+            name: result[i].eName,
+            sTime: createTimeInMins(result[i].sTimeHour, result[i].sTimeMinute),
+            eTime: createTimeInMins(result[i].eTimeHour, result[i].eTimeMinute)
+          }
+          events.push(event);
+        }
+        // sort the events by when they start
+        events.sort((obj1, obj2) => obj1.sTime - obj2.sTime);
 
+        // initialize how many minutes you must spend on the homework this day
+        var dailyMinLeft = numMinsPerDay;
+        var timeBlock = req.body.maxTimeConsecutive * 60;
+
+        // find all of the free times during the day
+        var freeTimes = timeBetweenEvents(events);
+        console.log(freeTimes);
+        var f = 0;
+        while (dailyMinLeft > 0) {
+            console.log(dailyMinLeft);
+            console.log(freeTimes[f]);
+            console.log(timeBlock);
+            if (freeTimes[f].length > timeBlock) {
+              console.log("plenty of time for homework");
+              homeworkEvent = {
+                date: schedulingDay,
+                starttime: createTimeInMilli(schedulingDay, freeTimes[f].sTime),
+                endtime: createTimeInMilli(schedulingDay, freeTimes[f].sTime+timeBlock),
+                name: assignmentName,
+                type: 'homework',
+                description: '',
+                color: assignmentColor
+              };
+              homeworkEvents.push(homeworkEvent);
+              dailyMinLeft-=timeBlock;
+              numMinsLeftTotal-=timeBlock;
+              if (dailyMinLeft < timeBlock) {
+                timeBlock = dailyMinLeft;
+              }
+            }
+            f++;
+          }
+      });
+    }
+    numMinsLeftTotal = 0;
+  }
+  return homeworkEvents;
+}
+
+function timeBetweenEvents(events) {
+  var times = [];
+  var wake = createTimeInMins(7, 0);
+  var sleep = createTimeInMins(23, 59)
+  for (var i = 0; i < events.length-1; i++) {
+    if (i === 0) {
+      var freeTime = {
+        sTime: wake,
+        eTime: events[i].sTime-10,
+        length: events[i].sTime-wake-10
+      }
+      if (freeTime.length > 0) {
+        times.push(freeTime);
+      }
+    }
+    if (events[i+1].sTime - events[i].eTime > 0) {
+      var freeTime = {
+        sTime: events[i].eTime+10,
+        eTime: events[i+1].sTime-10,
+        length: events[i+1].sTime-10 - events[i].eTime - 20
+      }
+      if (freeTime.length > 0) {
+        times.push(freeTime);
+      }
+    }
+    if (i+1 === events.length-1) {
+      var freeTime = {
+        sTime: events[i+1].eTime+10,
+        eTime: sleep,
+        length: sleep - events[i+1].eTime - 10
+      }
+      if (freeTime.length > 0) {
+        times.push(freeTime);
       }
     }
   }
-  return {"value": numDaysBetween};
+  return times;
 }
 
-//Took this function from https://www.geeksforgeeks.org/find-number-of-days-between-two-given-dates/
-function countLeapYears(d) { 
-    var years = d.getYear(); 
-  
-    // Check if the current year needs to be considered 
-    // for the count of leap years or not 
-    if (d.getMonth() <= 1) 
-        years--; 
-  
-    // An year is a leap year if it is a multiple of 4, 
-    // multiple of 400 and not a multiple of 100. 
-    return years / 4 - years / 100 + years / 400; 
-} 
-
 function getNumDaysBetween(date1, date2) {
-  console.log(date1);
-  console.log(date2);
-  console.log(date1.getMonth());
-  console.log(date2.getMonth()); 
 
-  var monthDays = [31, 28, 31, 30, 31, 30, 
-                           31, 31, 30, 31, 30, 31]; 
+  //Get 1 day in milliseconds
+  var one_day=1000*60*60*24;
+
+  // Convert both dates to milliseconds
+  var date1_ms = date1.getTime();
+  var date2_ms = date2.getTime();
+
+  // Calculate the difference in milliseconds
+  var difference_ms = date2_ms - date1_ms;
     
-  // initialize count using years and day 
-  var n1 = date1.getYear()*365 + date1.getDay(); 
-
-  // Add days for months in given date 
-  for (var i=0; i<date1.getMonth() - 1; i++) 
-      n1 += monthDays[i]; 
-
-  // Since every leap year is of 366 days, 
-  // Add a day for every leap year 
-  n1 += countLeapYears(date1); 
-
-  // SIMILARLY, COUNT TOTAL NUMBER OF DAYS BEFORE 'dt2' 
-
-  var n2 = date2.getYear()*365 + date2.getDay(); 
-  for (var i=0; i<date2.getMonth() - 1; i++) 
-      n2 += monthDays[i]; 
-  n2 += countLeapYears(date2); 
-
-  // return difference between two counts 
-  return (n2 - n1 - 1);   
+  // Convert back to days and return
+  return Math.round(difference_ms/one_day)-1; 
 }

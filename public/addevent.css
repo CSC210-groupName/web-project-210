@@ -1,13 +1,13 @@
 /*https://www.sanwebe.com/2014/08/css-html-forms-designs*/
 <style type="text/css">
-.form-style-6{
+.form-style{
 	font: 95% Arial, Helvetica, sans-serif;
 	max-width: 400px;
 	margin: 10px auto;
 	padding: 16px;
 	background: #F7F7F7;
 }
-.form-style-6 h1{
+.form-style h1{
 	background: #1a8fff;
 	padding: 20px 0;
 	font-size: 140%;
@@ -17,7 +17,7 @@
 	margin: -16px -16px 16px -16px;
 }
 
-.form-style-6 p{
+.form-style p{
 	font-family: "Roboto", sans-serif;
   	-webkit-font-smoothing: antialiased;
   	-moz-osx-font-smoothing: grayscale;
@@ -34,11 +34,11 @@ form{
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
 
-.form-style-6 input[type="text"],
-.form-style-6 input[type="number"],
-.form-style-6 textarea,
-.form-style-6 select, 
-.form-style-6 DatePicker
+.form-style input[type="text"],
+.form-style input[type="number"],
+.form-style textarea,
+.form-style select, 
+.form-style DatePicker
 {
 	-webkit-transition: all 0.30s ease-in-out;
 	-moz-transition: all 0.30s ease-in-out;
@@ -63,17 +63,33 @@ form{
   	box-sizing: border-box;
   	font-size: 14px;
 }
-.form-style-6 input[type="text"]:focus,
-.form-style-6 textarea:focus,
-.form-style-6 select:focus,
-.form-style-6 DatePicker:focus
+
+.form-style input[type="color"] {
+	-webkit-transition: all 0.30s ease-in-out;
+	-moz-transition: all 0.30s ease-in-out;
+	-ms-transition: all 0.30s ease-in-out;
+	-o-transition: all 0.30s ease-in-out;
+	outline: none;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	width: 100%;
+	background: #fff;
+	margin-bottom: 10%;
+	border: 1px solid #ccc;
+}
+
+.form-style input[type="text"]:focus,
+.form-style textarea:focus,
+.form-style select:focus,
+.form-style DatePicker:focus
 {
 	box-shadow: 0 0 5px #1a8fff;
 	padding: 3%;
 	border: 1px solid #1a8fff;
 }
 
-.form-style-6 #submit{
+.form-style #submit{
 	font-family: "Roboto", sans-serif;
   	text-transform: uppercase;
   	outline: 0;
@@ -88,7 +104,7 @@ form{
   	cursor: pointer;
   	margin: 0px 0 15px;
 }
-.form-style-6 button:hover{
+.form-style button:hover{
 	background: #005cb3;
 }
 </style>

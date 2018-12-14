@@ -36,6 +36,7 @@ class EventAdder extends React.Component {
       eDate: new Date(),
       eName: '',
       eDesc: '',
+      color: '#f6b73c'
     };
     this.handleChange = this.handleChange.bind(this);
     this.handlesTimeChange = this.handlesTimeChange.bind(this);
@@ -70,6 +71,10 @@ class EventAdder extends React.Component {
     this.setState({ eDesc: event.target.value });
   }
 
+  onColorChange = (event) => {
+    this.setState({ color: event.target.value });
+  }
+
   onEventSubmit = (event) => {
     event.preventDefault();
     console.log(this.state.eDate.toString());
@@ -84,7 +89,8 @@ class EventAdder extends React.Component {
       endtime: this.state.eTime.getTime(),
       name: this.state['eName'],
       type: 'event',
-      description: this.state['eDesc']
+      description: this.state['eDesc'],
+      color: this.state['color']
     }).then(function(response) {
       success = response.data;
       console.log(success);
@@ -106,7 +112,7 @@ class EventAdder extends React.Component {
         <div>
           <p id="loginmessage"></p>
         </div>
-        <div className="form-style-6">
+        <div className="form-style">
           <h1>
             Event Adder
           </h1>
@@ -140,6 +146,11 @@ class EventAdder extends React.Component {
             <DatePicker
               selected={this.state.eDate}
               onChange={this.handleChange} />
+            <p>Event Color</p>
+            <input 
+              type="color"
+              value={this.state.color}
+              onChange={this.onColorChange} />
             <button id="submit">Submit</button>
           </form>
         </div>

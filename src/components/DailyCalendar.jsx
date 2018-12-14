@@ -115,6 +115,7 @@ class DailyCalendar extends React.Component {
             date: this.state.currentDay
         }).then(function(response) { //sorry this code is a huge mess
 
+            console.log(response);
             // Resets for each new /day page
             for (var hour = 0; hour < 24; hour++) {
                 for (var col = 1; col < 7; col++){
@@ -157,7 +158,6 @@ class DailyCalendar extends React.Component {
                     sMin = event.sTimeMinute,
                     eHour = event.eTimeHour,
                     eMin = event.eTimeMinute;
-                var colors = ['#0066ff', '#9900ff', '#00cc00', '#ffcc00', '#ff33cc', '#cc0000', '#ff6600', '#33ccff']
                 var fullHeight = ((eHour-sHour)*6 + (eMin - sMin)/10) + "em";
                 var t = (sMin/10) + "em"; 
 
@@ -173,7 +173,7 @@ class DailyCalendar extends React.Component {
                     + sMin + "-" + eHourDisplay + ":" + eMin +"</small></div>";
                     var elementStyle = document.getElementById(idName).style;
                     var divStyle = document.getElementById("row"+sHour+"col"+colNum).style;
-                    elementStyle.background=colors[j%7];
+                    elementStyle.background=event.color;
                     divStyle.top=t;
                     elementStyle.height=fullHeight;
                     divStyle.zIndex=5;
