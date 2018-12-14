@@ -111,13 +111,15 @@ class AssignmentAdder extends React.Component {
         });
       }
     });
+    self.props.history.push({
+      pathname: '/day'
+    });
     this.setState({
       name: '',
       dueDate: new Date(),
       dueTime: new Date(),
       estimateTime: '',
       maxTimeConsecutive: '',
-      color: '#f6b73c'
     });
   }
 

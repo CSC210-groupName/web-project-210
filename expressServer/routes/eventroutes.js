@@ -72,16 +72,6 @@ function createTimeInMins(hour, min) {
   return hour * 60 + min;
 }
 
-function minsToTime(mins) {
-  var thismin = mins % 60;
-  var thishour = Math.floor(mins/60);
-  var time = {
-    hour: thishour,
-    min: thismin
-  }
-  return time;
-}
-
 function createDate(hour, min, day) {
   var date = new Date(day);
   date.setHours(hour, min, 0, 0);
@@ -128,12 +118,17 @@ async function addAssignment(req) {
 
         // find all of the free times during the day
         var freeTimes = timeBetweenEvents(events);
-        //console.log(freeTimes);
+        console.log(freeTimes.length);
         var f = 0;
         while (dailyMinLeft > 0) {
-            if (f === freeTimes.length) {
+            console.log(f);
+            if (f === freeTimes.length-1) {
               if (timeBlock > 60) {
                 timeBlock -= 60;
+                f = 0;
+              }
+              if (timeBlock <= 60) {
+                timeBlock-=10;
                 f = 0;
               }
             }
