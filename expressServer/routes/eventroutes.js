@@ -96,6 +96,7 @@ async function addAssignment(req) {
     // for every day between the day added until the due date
     for (var day = 0; day < numDaysBetween; day++) {
       schedulingDay = schedulingDay + 86400000; // this should get the current day
+      console.log(new Date(schedulingDay));
       // get all of the events occuring during that day
       await getEvents(req.user.id, schedulingDay).then((result) => {
         var events = [];
@@ -111,6 +112,7 @@ async function addAssignment(req) {
         // sort the events by when they start
         events.sort((obj1, obj2) => obj1.sTime - obj2.sTime);
 
+        console.log(events);
         // initialize how many minutes you must spend on the homework this day
         var dailyMinLeft = numMinsPerDay + leftoverMins;
         var timeBlock = req.body.maxTimeConsecutive * 60;
@@ -119,7 +121,13 @@ async function addAssignment(req) {
         var freeTimes = timeBetweenEvents(events);
         var f = 0;
         while (dailyMinLeft > 0) {
-            if (f === freeTimes.length-1) {
+          console.log(dailyMinLeft);
+          console.log(freeTimes);
+          console.log(timeBlock);
+          console.log(f);
+          console.log(freeTimes.length);
+          //console.log(f);
+            if (f >= freeTimes.length-1) {
               if (timeBlock > 60) {
                 timeBlock -= 60;
                 f = 0;
@@ -140,20 +148,24 @@ async function addAssignment(req) {
                 color: assignmentColor
               };
               homeworkEvents.push(homeworkEvent);
-              if (f != freeTimes.length -1) {
+              if (f != freeTimes.length-1) {
                 var additionalFreeTime = {
                   sTime: freeTimes[f].sTime+timeBlock+timeBlock,
                   eTime: freeTimes[f+1].sTime,
                   length: freeTimes[f+1].sTime-(freeTimes[f].sTime+timeBlock+timeBlock)
                 }
-                freeTimes.push(additionalFreeTime);
+                if (additionalFreeTime.length > 0) {
+                  freeTimes.push(additionalFreeTime);
+                }
               } else {
                 var additionalFreeTime = {
                   sTime: freeTimes[f].sTime+timeBlock+timeBlock,
                   eTime: freeTimes[f].eTime,
                   length: freeTimes[f].eTime - (freeTimes[f].sTime+timeBlock+timeBlock)
                 }
-                freeTimes.push(additionalFreeTime);
+                if (additionalFreeTime.length > 0) {
+                  freeTimes.push(additionalFreeTime);
+                }
               }
               dailyMinLeft-=timeBlock;
               numMinsLeftTotal-=timeBlock;
@@ -179,6 +191,20 @@ function timeBetweenEvents(events) {
       sTime: wake,
       eTime: sleep,
       length: sleep - wake
+    }
+    times.push(freeTime);
+  }
+  if (events.length === 1) {
+    var freeTime = {
+      sTime: wake,
+      eTime: events[0].sTime-10,
+      length: events[0].sTime-wake-10
+    }
+    times.push(freeTime);
+    freeTime = {
+      sTime: events[0].eTime+10,
+      eTime: sleep,
+      length: sleep - events[0].eTime-10
     }
     times.push(freeTime);
   }
