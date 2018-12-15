@@ -90,11 +90,18 @@ async function addAssignment(req) {
   var numMinsLeftTotal = req.body.estimateTime*60;
   var schedulingDay = new Date(); schedulingDay.setHours(0,0,0,0); schedulingDay = Date.parse(schedulingDay);
   var leftoverMins = 0;
+  var restarted = false;
   // while we have not yet spent enough time on the assignment
   while (numMinsLeftTotal > 0) {
     
     // for every day between the day added until the due date
     for (var day = 0; day <= numDaysBetween; day++) {
+      if (day === numDaysBetween && numMinsLeftTotal > 0) {
+        day = 0;
+        restarted = true;
+        schedulingDay = schedulingDay - (numDaysBetween)*86400000;
+        continue;
+      }
       schedulingDay = schedulingDay + 86400000; // this should get the current day
       console.log(new Date(schedulingDay));
       // get all of the events occuring during that day
@@ -114,7 +121,11 @@ async function addAssignment(req) {
 
         console.log(events);
         // initialize how many minutes you must spend on the homework this day
-        var dailyMinLeft = numMinsPerDay + leftoverMins;
+        if (restarted) {
+          dailyMinLeft = numMinsLeftTotal;
+        } else {
+          var dailyMinLeft = numMinsPerDay + leftoverMins;
+        }
         var timeBlock = req.body.maxTimeConsecutive * 60;
 
         // find all of the free times during the day
