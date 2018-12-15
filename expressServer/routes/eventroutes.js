@@ -94,7 +94,7 @@ async function addAssignment(req) {
   while (numMinsLeftTotal > 0) {
     
     // for every day between the day added until the due date
-    for (var day = 0; day < numDaysBetween; day++) {
+    for (var day = 0; day <= numDaysBetween; day++) {
       schedulingDay = schedulingDay + 86400000; // this should get the current day
       console.log(new Date(schedulingDay));
       // get all of the events occuring during that day
@@ -121,13 +121,12 @@ async function addAssignment(req) {
         var freeTimes = timeBetweenEvents(events);
         var f = 0;
         while (dailyMinLeft > 0) {
-          console.log(dailyMinLeft);
+          console.log("minutes left to schedule "+dailyMinLeft);
           console.log(freeTimes);
-          console.log(timeBlock);
-          console.log(f);
-          console.log(freeTimes.length);
-          //console.log(f);
-            if (f >= freeTimes.length-1) {
+          console.log("scheduling blocks of minutes " + timeBlock);
+          console.log("f-value " + f);
+          console.log("number of free times available "+freeTimes.length);
+            if (f > freeTimes.length-1 && freeTimes.length > 1) {
               if (timeBlock > 60) {
                 timeBlock -= 60;
                 f = 0;
