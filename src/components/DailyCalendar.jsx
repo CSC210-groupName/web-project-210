@@ -132,6 +132,7 @@ class DailyCalendar extends React.Component {
                 var event = response.data[j],
                     sHour = event.sTimeHour,
                     name = event.eName,
+                    eventDesc = event.eDesc,
                     idName = sHour+name.replace(/\s+/g, '');
                 for (var c = 0; c < eventsAdded.length; c++) {
 
@@ -158,24 +159,51 @@ class DailyCalendar extends React.Component {
                     sMin = event.sTimeMinute,
                     eHour = event.eTimeHour,
                     eMin = event.eTimeMinute;
-                var fullHeight = ((eHour-sHour)*6 + (eMin - sMin)/10) + "em";
+                var fullHeight = ((eHour-sHour)*4.8 + (eMin - sMin)/12.5) + "em";
+                var divHeight = ((eHour-sHour)*4.8 + (eMin - sMin)/12.5);
                 var t = (sMin/10) + "em"; 
 
                 // Formatting display times
                 if(eMin===0){eMin="00";} if(sMin===0){sMin="00";} 
+                if (sHour<12){
+                    sMin = sMin + "am";
+                } else {
+                    sMin = sMin + "pm";
+                }
+                if (eHour<12){
+                    eMin = eMin + "am";
+                } else {
+                    eMin = eMin + "pm";
+                }
                 var sHourDisplay = sHour<10 ? ("0"+sHour) : sHour;
                 var eHourDisplay = eHour<10 ? ("0"+eHour) : eHour;
+                sHourDisplay = sHour<=12 ? (sHour) : sHour - 12;
+                eHourDisplay = eHour<=12 ? (eHour) : eHour - 12;
+
+
+
 
                 // Actually creating the event display here!!!
                 if (colNum <= 6) {
-                    document.getElementById("row"+sHour+"col"+colNum).innerHTML+=
-                    "<div id=" + idName +" class=userEvent><b>" + name + "</b><br/><small class=eTime>" + sHourDisplay + ":" 
-                    + sMin + "-" + eHourDisplay + ":" + eMin +"</small></div>";
+                    if (divHeight>2){
+                        document.getElementById("row"+sHour+"col"+colNum).innerHTML+=
+                        "<div id=" + idName +" class=userEvent><b>" + name + "</b><br/><small class=eTime>" + sHourDisplay + ":" 
+                        + sMin + " - " + eHourDisplay + ":" + eMin + "<br/><br/>" + eventDesc + "</small></div>";
+                    } else {
+                        document.getElementById("row"+sHour+"col"+colNum).innerHTML+=
+                        "<div id=" + idName +" class=userEventSmall><b>" + name + " : " + "</b><small class=eTime>" + sHourDisplay + ":" 
+                        + sMin + " - " + eHourDisplay + ":" + eMin + "</small></div>";
+                    }
                     var elementStyle = document.getElementById(idName).style;
                     var divStyle = document.getElementById("row"+sHour+"col"+colNum).style;
                     elementStyle.background=event.color;
                     divStyle.top=t;
-                    elementStyle.height=fullHeight;
+                    if (divHeight<2){
+                        fullHeight = divHeight + 0.5 + "em";
+                        elementStyle.height=fullHeight;
+                    } else {
+                        elementStyle.height=fullHeight;
+                    }
                     divStyle.zIndex=5;
 
                     // colNum-1 (since colNum is 1-indexed) should only ever be 1 more than last col in eventsAdded
