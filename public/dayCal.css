@@ -272,7 +272,8 @@ main {
   border-radius: 10px;
   padding: 6px 10px;
   font-size: 20px;
-  color: navy;
+  color: white;
+  text-shadow:  0 1px gray, 1px 0 gray;
   overflow: auto;
 }
 
@@ -280,7 +281,8 @@ main {
   border-radius: 10px;
   padding: 2px 10px;
   font-size: 16px;
-  color: navy;
+  color: white;
+  text-shadow:  0 1px gray, 1px 0 gray;
   overflow: auto;
 }
 

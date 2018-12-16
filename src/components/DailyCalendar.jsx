@@ -187,12 +187,12 @@ class DailyCalendar extends React.Component {
                 if (colNum <= 6) {
                     if (divHeight>2){
                         document.getElementById("row"+sHour+"col"+colNum).innerHTML+=
-                        "<div id=" + idName +" class=userEvent><b>" + name + "</b><br/><small class=eTime>" + sHourDisplay + ":" 
-                        + sMin + " - " + eHourDisplay + ":" + eMin + "<br/><br/>" + eventDesc + "</small></div>";
+                        "<div id=" + idName +" class=userEvent><b>" + name + "</b><br/><b><small class=eTime>" + sHourDisplay + ":" 
+                        + sMin + " - " + eHourDisplay + ":" + eMin + "<br/><br/>" + eventDesc + "</small></b></div>";
                     } else {
                         document.getElementById("row"+sHour+"col"+colNum).innerHTML+=
-                        "<div id=" + idName +" class=userEventSmall><b>" + name + " : " + "</b><small class=eTime>" + sHourDisplay + ":" 
-                        + sMin + " - " + eHourDisplay + ":" + eMin + "</small></div>";
+                        "<div id=" + idName +" class=userEventSmall><b>" + name + " : " + "</b><b><small class=eTime>" + sHourDisplay + ":" 
+                        + sMin + " - " + eHourDisplay + ":" + eMin + "</small></b></div>";
                     }
                     var elementStyle = document.getElementById(idName).style;
                     var divStyle = document.getElementById("row"+sHour+"col"+colNum).style;
