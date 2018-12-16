@@ -270,7 +270,18 @@ main {
 
 .userEvent {
   border-radius: 10px;
-  padding: 0px 10px;
+  padding: 6px 10px;
+  font-size: 20px;
+  color: navy;
+  overflow: auto;
+}
+
+.userEventSmall {
+  border-radius: 10px;
+  padding: 2px 10px;
+  font-size: 16px;
+  color: navy;
+  overflow: auto;
 }
 
 /* body {
