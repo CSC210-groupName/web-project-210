@@ -56,7 +56,8 @@ async function getEvents(id, date) {
       sTimeMinute: sTime.getMinutes(),
       eTimeHour: eTime.getHours(),
       eTimeMinute: eTime.getMinutes(),
-      color: event.events[0].color
+      color: event.events[0].color,
+      eDesc: event.events[0].description
     };
     result.push(eventData);
   });
