@@ -332,19 +332,21 @@ class DailyCalendar extends React.Component {
 
     render() {
         return (
-            <div className="calendar">
-                <div className="nav-container">
-                    <a href="/auth/logout">Logout</a>
-                    <div className="nav-right">
-                        <a href="/cal">Back to Month</a>
-                        <a href="/add_event">New Event</a>
-                        <a href="/add_assignment">New Assignment</a>
-                    </div>
+            <div>
+            <div className="nav-container">
+                <a href="/auth/logout">Logout</a>
+                <div className="nav-right">
+                    <a href="/cal">Back to Month</a>
+                    <a href="/add_event">New Event</a>
+                    <a href="/add_assignment">New Assignment</a>
                 </div>
+            </div>
+            <div className="calendar">
                 {this.renderHeader()}
                 {this.renderDays()}
                 {this.renderCells()}
             </div>
+        </div>
         );
     }
 }

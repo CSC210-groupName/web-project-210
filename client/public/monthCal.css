@@ -86,7 +86,7 @@ main {
   background: var(--bg-color);
 }
 
-.nav-right {
+.nav-right, .nav-left {
   display: flex;
 }
 
@@ -278,10 +278,8 @@ main {
 
 #usercal {
   padding: 5px;
-  width: 100%;
   background: var(--bg-color);
-  font-size: 30px;
-  text-align: center;
+  font-size: 20px;
   color: var(--text-color);
 }
 

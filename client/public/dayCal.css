@@ -51,6 +51,9 @@ body {
     color: var(--text-color);
     background: var(--bg-color);
     position: relative;
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
 }
 
 header {

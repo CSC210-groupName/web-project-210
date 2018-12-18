@@ -31,8 +31,8 @@ class Calendar extends React.Component {
 
       axios.get('https://talaikis.com/api/quotes/random/')
         .then(function(response) {
-            console.log(response.data.quote);
-            document.getElementById("quote").innerHTML=response.data.quote + "  -" +response.data.author;
+            var quote = response.data.quote.split(".");
+            document.getElementById("quote").innerHTML=quote[0] + ".  -" +response.data.author;
         });
 
         axios.get('/auth/current_user').then(function(response) {
@@ -189,13 +189,15 @@ class Calendar extends React.Component {
         return (
             <div className="calendar">
                 <div className="nav-container">
-                    <a href="/auth/logout">Logout</a>
+                    <div className="nav-left">
+                        <a href="/auth/logout">Logout</a>
+                        <div id="usercal"></div>
+                    </div>
                     <div className="nav-right">
                         <a href="/add_event">New Event</a>
                         <a href="/add_assignment">New Assignment</a>
                     </div>
                 </div>
-                <div id="usercal"></div>
                 <div id="quote"></div>
                 {this.renderHeader()}
                 {this.renderDays()}
