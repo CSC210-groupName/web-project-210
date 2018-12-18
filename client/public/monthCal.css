@@ -83,6 +83,7 @@ main {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  background: var(--bg-color);
 }
 
 .nav-right {
@@ -267,6 +268,21 @@ main {
   margin: 0em;
   line-height: 1;
   height: 6em;
+}
+
+#quote {
+  height: 2em;
+  width: 100%;
+  text-align: center;
+}
+
+#usercal {
+  padding: 5px;
+  width: 100%;
+  background: var(--bg-color);
+  font-size: 30px;
+  text-align: center;
+  color: var(--text-color);
 }
 
 /* body {

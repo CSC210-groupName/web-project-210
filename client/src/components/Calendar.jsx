@@ -33,6 +33,16 @@ class Calendar extends React.Component {
     renderHeader() {
         const dateFormat = "MMMM - YYYY";
 
+        axios.get('https://talaikis.com/api/quotes/random/')
+        .then(function(response) {
+            console.log(response.data.quote);
+            document.getElementById("quote").innerHTML=response.data.quote + "  -" +response.data.author;
+        });
+
+        axios.get('/auth/current_user').then(function(response) {
+            document.getElementById("usercal").innerHTML = response.data.name + "\'s Calendar";
+        })
+
         return (
             <div className="header row flex-middle">
 
@@ -185,6 +195,8 @@ class Calendar extends React.Component {
                         <a href="/add_assignment">New Assignment</a>
                     </div>
                 </div>
+                <div id="usercal"></div>
+                <div id="quote"></div>
                 {this.renderHeader()}
                 {this.renderDays()}
                 {this.renderCells()}
