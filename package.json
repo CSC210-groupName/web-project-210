@@ -21,12 +21,13 @@
     "serve-favicon": "^2.5.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "concurrently \"npm run prodserver\" \"react-scripts start\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "prodserver":"npm start --prefix expressServer",
     "sexpress": "npm run dev --prefix expressServer",
-    "dev": "concurrently \"npm run sexpress\" \"npm start\""
+    "dev": "concurrently \"npm run sexpress\" \"react-scripts start\""
   },
   "eslintConfig": {
     "extends": "react-app"
