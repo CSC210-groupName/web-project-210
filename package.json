@@ -1,41 +1,30 @@
 {
-  "name": "csc210project",
-  "version": "0.1.0",
-  "private": true,
+  "name": "expressserver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "engines":{
+    "node": "10.13.0",
+    "npm": "6.4.1"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "dev":"concurrently \"npm run nodemon\" \"npm run start --prefix client\"",
+    "nodemon":"nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
   "dependencies": {
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "concurrently": "^4.1.0",
-    "date-fns": "^1.29.0",
+    "cookie-session": "^2.0.0-beta.3",
     "express": "^4.16.4",
-    "http-proxy-middleware": "^0.19.1",
-    "morgan": "^1.9.1",
-    "react": "^16.6.3",
-    "react-datepicker": "^2.0.0",
-    "react-dom": "^16.6.3",
-    "react-redux": "^5.1.1",
-    "react-router": "^4.3.1",
-    "react-router-dom": "^4.3.1",
-    "react-scripts": "2.1.1",
-    "redux": "^4.0.1",
-    "serve-favicon": "^2.5.0"
-  },
-  "scripts": {
-    "start": "concurrently \"npm run prodserver\" \"react-scripts start\"",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "prodserver":"npm start --prefix expressServer",
-    "sexpress": "npm run dev --prefix expressServer",
-    "dev": "concurrently \"npm run sexpress\" \"react-scripts start\""
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+    "mongoose": "^5.3.14",
+    "nodemon": "^1.18.7",
+    "passport": "^0.4.0",
+    "passport-google-oauth20": "^1.0.0",
+    "passport-local": "^1.0.0"
+  }
 }
