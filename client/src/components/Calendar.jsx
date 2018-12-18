@@ -28,12 +28,8 @@ class Calendar extends React.Component {
           this.props.history.push('/');
         }
       });
-    }
 
-    renderHeader() {
-        const dateFormat = "MMMM - YYYY";
-
-        axios.get('https://talaikis.com/api/quotes/random/')
+      axios.get('https://talaikis.com/api/quotes/random/')
         .then(function(response) {
             console.log(response.data.quote);
             document.getElementById("quote").innerHTML=response.data.quote + "  -" +response.data.author;
@@ -41,7 +37,11 @@ class Calendar extends React.Component {
 
         axios.get('/auth/current_user').then(function(response) {
             document.getElementById("usercal").innerHTML = response.data.name + "\'s Calendar";
-        })
+        });
+    }
+
+    renderHeader() {
+        const dateFormat = "MMMM - YYYY";
 
         return (
             <div className="header row flex-middle">
