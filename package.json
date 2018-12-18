@@ -1,5 +1,5 @@
 {
-  "name": "expressserver",
+  "name": "web-project-210",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -11,7 +11,8 @@
     "start": "node index.js",
     "dev":"concurrently \"npm run nodemon\" \"npm run start --prefix client\"",
     "nodemon":"nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "heroku-postbuild":"NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
   "author": "",
   "license": "ISC",
