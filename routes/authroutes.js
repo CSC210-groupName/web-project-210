@@ -50,6 +50,9 @@ module.exports = (app)=>{
       const name=req.body.name;
       const username = req.body.username;
       const password = req.body.password;
+      var bcrypt = require('bcryptjs');
+      var salt = bcrypt.genSaltSync(10);
+      var hash = bcrypt.hashSync(password, salt);
       User.findOne({
         userName: username
       }).then(existingUser=>{
@@ -60,7 +63,7 @@ module.exports = (app)=>{
           new User({
             userName: username,
             name: name,
-            password: password,
+            password: hash,
             googleid: null
           }).save().then(
             user=>res.send({username: user.userName, password: user.password}));

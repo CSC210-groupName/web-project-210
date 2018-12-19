@@ -4,6 +4,7 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const mongoose = require('mongoose');
 const User = mongoose.model('users');
 const LocalStrategy = require('passport-local').Strategy;
+var bcrypt = require('bcryptjs');
 
 passport.serializeUser((user, done)=>{
   done(null, user.id);
@@ -17,10 +18,12 @@ passport.deserializeUser((id, done)=>{
 
 passport.use(new LocalStrategy(
     (username, password, done)=>{
-      User.findOne({userName: username, password: password}).then(user=>{
-        if(user){
+      User.findOne({userName: username}).then(user=>{
+        if (bcrypt.compareSync(password, user.password)){
           return done(null, user);
-        }else{
+        } else if (user.password === password) {
+          return done(null, user);
+        } else {
           return done(null, false);
         }
       })
