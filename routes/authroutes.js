@@ -66,7 +66,7 @@ module.exports = (app)=>{
             password: hash,
             googleid: null
           }).save().then(
-            user=>res.send({username: user.userName, password: user.password}));
+            user=>res.send({username: user.userName, password: password}));
         }
       });
 
