@@ -21,8 +21,6 @@ passport.use(new LocalStrategy(
       User.findOne({userName: username}).then(user=>{
         if (bcrypt.compareSync(password, user.password)){
           return done(null, user);
-        } else if (user.password === password) {
-          return done(null, user);
         } else {
           return done(null, false);
         }
