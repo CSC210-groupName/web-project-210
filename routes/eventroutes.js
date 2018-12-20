@@ -107,6 +107,8 @@ async function addAssignment(req) {
         restarted = true;
         schedulingDay = schedulingDay - (numDaysBetween-1)*86400000;
         continue;
+      } else if (day === numDaysBetween && numMinsLeftTotal <= 0) {
+        break;
       }
       schedulingDay = schedulingDay + 86400000; // this should get the current day
       // get all of the events occuring during that day
