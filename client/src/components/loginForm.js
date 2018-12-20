@@ -22,6 +22,7 @@ export default class LoginForm extends React.Component{
   render(){
     return (
       <div id="loginForm">
+        <a href="/landing_page"><img id="logo" src="favicon.png" alt="Smart Scheduler"/></a>
         <Login />
         <Signup />
       </div>

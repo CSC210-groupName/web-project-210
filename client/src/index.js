@@ -13,6 +13,7 @@ import reducers from "./reducers";
 import Calendar from './components/Calendar';
 import DailyCalendar from "./components/DailyCalendar";
 import EventAdder from "./components/EventAdder";
+import LandingPage from "./components/LandingPage";
 import AssignmentAdder from "./components/AssignmentAdder";
 import { BrowserRouter, Route, Link } from 'react-router-dom';
 
@@ -25,6 +26,7 @@ ReactDOM.render(
     <BrowserRouter>
       <Switch>
         <Route path="/add_assignment" component={AssignmentAdder}/>
+        <Route path="/landing_page" component={LandingPage}/>
         <Route path="/add_event" component={EventAdder}/>
         <Route path="/day" component={DailyCalendar}/>
         <Route path="/cal" component={Calendar}/>
