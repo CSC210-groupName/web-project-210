@@ -10,7 +10,9 @@
   "scripts": {
     "start": "pm2-runtime start ecosystem.config.js --env production",
     "dev": "concurrently \"npm run nodemon\" \"npm run start --prefix client\"",
-    "nodemon": "pm2 start index.js -i 0",
+    "nodemon":"nodemon index.js",
+    "pm2": "pm2 start index.js -i 0",
+    "prod": "concurrently \"npm run pm2\" \"npm run start --prefix client\"",
     "test": "echo \"Error: no test specified\" && exit 1",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
