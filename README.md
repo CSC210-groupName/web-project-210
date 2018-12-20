@@ -74,6 +74,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 Our database is a remote serviced mongoDB database. Our schema contains a Collection of users, including a unique id for each, a name to address the user by, and depending on method of login, either a username and password for default login, or a google id for login via Google. 
 
+Collections of events for each user are created on first added event for a user, and contain all information supplied by the user for adding events.
+
 We connected our database to the backend Express server using the mongoose javascript framework. Documents are gathered by the backend to return information to the client through the API.
 
 ### Web API
