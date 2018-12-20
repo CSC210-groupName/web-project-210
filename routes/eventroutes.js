@@ -94,6 +94,7 @@ async function addAssignment(req) {
   var schedulingDay = new Date(); schedulingDay.setHours(0,0,0,0); schedulingDay = Date.parse(schedulingDay);
   var leftoverMins = 0;
   var restarted = false;
+  var freeTimeByDay = {}
 
   // MAIN ALGORITHM
   // while we have not yet spent enough time on the assignment
@@ -104,11 +105,10 @@ async function addAssignment(req) {
       if (day === numDaysBetween && numMinsLeftTotal > 0) {
         day = 0;
         restarted = true;
-        schedulingDay = schedulingDay - (numDaysBetween)*86400000;
+        schedulingDay = schedulingDay - (numDaysBetween-1)*86400000;
         continue;
       }
       schedulingDay = schedulingDay + 86400000; // this should get the current day
-      console.log(new Date(schedulingDay));
       // get all of the events occuring during that day
       await getEvents(req.user.id, schedulingDay).then((result) => {
         var events = [];
@@ -124,7 +124,6 @@ async function addAssignment(req) {
         // sort the events by when they start
         events.sort((obj1, obj2) => obj1.sTime - obj2.sTime);
 
-        console.log(events);
         // initialize how many minutes you must spend on the homework this day
         if (restarted) {
           dailyMinLeft = numMinsLeftTotal;
@@ -134,8 +133,13 @@ async function addAssignment(req) {
         var timeBlock = req.body.maxTimeConsecutive * 60;
 
         // find all of the free times during the day
-        var freeTimes = timeBetweenEvents(events);
+        if (freeTimeByDay[schedulingDay] === undefined) {
+          var freeTimes = timeBetweenEvents(events);
+        } else {
+          var freeTimes = freeTimeByDay[schedulingDay];
+        }
         var f = 0;
+        //console.log(freeTimes);
         while (dailyMinLeft > 0) {
 
             /* these make it possible to schedule assignment events that are 
@@ -153,6 +157,10 @@ async function addAssignment(req) {
 
             /* creates a new assingment event in any time block 
                that is long enough to schedule time to do assignment */
+            if (freeTimes[f] === undefined) {
+              break;
+            }
+
             if (freeTimes[f].length > timeBlock) {
               homeworkEvent = {
                 date: schedulingDay,
@@ -163,20 +171,26 @@ async function addAssignment(req) {
                 description: '',
                 color: assignmentColor
               };
+              hEvent = {
+                name: assignmentName,
+                sTime: createTimeInMins(schedulingDay, freeTimes[f].sTime),
+                eTime: createTimeInMins(schedulingDay, freeTimes[f].sTime+timeBlock)
+              };
               homeworkEvents.push(homeworkEvent);
+              events.push(hEvent);
 
               /* this makes sure that if you have a large block of free time
                  you can have multiple homework events in that block */
-              if (f != freeTimes.length-1) {
-                var additionalFreeTime = {
-                  sTime: freeTimes[f].sTime+timeBlock+timeBlock,
-                  eTime: freeTimes[f+1].sTime,
-                  length: freeTimes[f+1].sTime-(freeTimes[f].sTime+timeBlock+timeBlock)
-                }
-                if (additionalFreeTime.length > 0) {
-                  freeTimes.push(additionalFreeTime);
-                }
-              } else {
+              // if (f != freeTimes.length-1) {
+              //   var additionalFreeTime = {
+              //     sTime: freeTimes[f].sTime+timeBlock+timeBlock,
+              //     eTime: freeTimes[f+1].sTime,
+              //     length: freeTimes[f+1].sTime-(freeTimes[f].sTime+timeBlock+timeBlock)
+              //   }
+              //   if (additionalFreeTime.length > 0) {
+              //     freeTimes.push(additionalFreeTime);
+              //   }
+              // } else {
                 var additionalFreeTime = {
                   sTime: freeTimes[f].sTime+timeBlock+timeBlock,
                   eTime: freeTimes[f].eTime,
@@ -188,6 +202,8 @@ async function addAssignment(req) {
               }
 
               // Updating how much time still needs to be scheduled for assignment
+              freeTimes.splice(f, 1);
+              freeTimeByDay[schedulingDay] = freeTimes
               dailyMinLeft-=timeBlock;
               numMinsLeftTotal-=timeBlock;
               if (dailyMinLeft < timeBlock) {
@@ -195,7 +211,7 @@ async function addAssignment(req) {
               }
             }
             f++;
-          }
+          // }
       });
     }
     numMinsLeftTotal = 0;
