@@ -122,3 +122,11 @@ Our project is currently being hosted at https://web210.herokuapp.com
 
 MongoDB database is stored remotely using MLab.
 
+##### Server Enhancement
+
+Using pm2, server has 8 threads. 
+
+##### Landing Page
+
+Our web project has a landing page describing the product and leading users to the login page. Find at `/landing_page` or by clicking on the logo at the top of the login page. 
+
