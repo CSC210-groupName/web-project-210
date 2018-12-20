@@ -61,3 +61,62 @@ This project uses
 - Express
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+###
+
+###
+
+###
+
+## Project Requirements
+
+### Database:
+
+Our database is a remote serviced mongoDB database. Our schema contains a Collection of users, including a unique id for each, a name to address the user by, and depending on method of login, either a username and password for default login, or a google id for login via Google. 
+
+We connected our database to the backend Express server using the mongoose javascript framework. Documents are gathered by the backend to return information to the client through the API.
+
+### Web API
+
+Calls on the front end to our API are performed using axios. Data is consumed and used on the front end to do things such as display events.
+
+Our Web API was implemented using Express and Axios to create various endpoints for the client side to access. These endpoints include:
+
+###
+
+##### Endpoints
+###### AUTH
+
+- `/auth/google` GET - uses Passport.js to authenticate Google users.
+- `/auth/google/callback` GET - to redirect users to our web application after login with Google.
+- `/auth/current_user` GET - returns information about the currently logged in user
+- `/auth/logout` GET - logs a user out and redirect them to login page
+- `/auth/logindefault` POST - uses Passport.js to authenticate a user by confirming username and password match
+- `/auth/signupdefault` POST - creates a new user Document in the remote database
+
+###### FUNC
+
+- `/func/addevent` POST - adds an event to a logged in users database of events
+- `/func/assassignment` POST - takes user information about assignment to automatically create and add assignment events to a logged in users database of events
+- `/func/getevents` POST - takes the current day and returns all events on that given day in the logged in users events Collection
+
+###
+
+###
+
+### Bonuses
+
+##### Google OAuth
+
+Users can log in using Google authentication
+
+##### 3rd Party API
+
+Daily quotes are gathered from the external API https://talaikis.com/api/
+
+##### Cloud hosting of assets
+
+Our project is currently being hosted at https://web210.herokuapp.com
+
+MongoDB database is stored remotely using MLab.
+

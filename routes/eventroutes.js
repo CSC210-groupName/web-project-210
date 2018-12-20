@@ -37,6 +37,7 @@ module.exports = (app)=>{
   });
 };
 
+// function that gets all the events for a user on a date
 async function getEvents(id, date) {
   var datesDB = mongoose.model(id, eventTableSchema); 
   var query = datesDB.find({"date": { 
@@ -64,10 +65,10 @@ async function getEvents(id, date) {
   return result;
 }
 
+// Some handy functions for scheduling events
 function createTimeInMilli(date, min) {
   return date + (min * 60000);
 }
-
 
 function createTimeInMins(hour, min) {
   return hour * 60 + min;
@@ -81,6 +82,7 @@ function createDate(hour, min, day) {
 
 async function addAssignment(req) {
 
+  // creating a LOT of variables here
   var assignmentColor = req.body.color;
   var assignmentName = req.body.name;
   var homeworkEvents = [];
@@ -92,6 +94,8 @@ async function addAssignment(req) {
   var schedulingDay = new Date(); schedulingDay.setHours(0,0,0,0); schedulingDay = Date.parse(schedulingDay);
   var leftoverMins = 0;
   var restarted = false;
+
+  // MAIN ALGORITHM
   // while we have not yet spent enough time on the assignment
   while (numMinsLeftTotal > 0) {
     
@@ -133,11 +137,9 @@ async function addAssignment(req) {
         var freeTimes = timeBetweenEvents(events);
         var f = 0;
         while (dailyMinLeft > 0) {
-          console.log("minutes left to schedule "+dailyMinLeft);
-          console.log(freeTimes);
-          console.log("scheduling blocks of minutes " + timeBlock);
-          console.log("f-value " + f);
-          console.log("number of free times available "+freeTimes.length);
+
+            /* these make it possible to schedule assignment events that are 
+               less than  the max consecutive hours in a day*/
             if (f > freeTimes.length-1 && freeTimes.length > 1) {
               if (timeBlock > 60) {
                 timeBlock -= 60;
@@ -148,6 +150,9 @@ async function addAssignment(req) {
                 f = 0;
               }
             }
+
+            /* creates a new assingment event in any time block 
+               that is long enough to schedule time to do assignment */
             if (freeTimes[f].length > timeBlock) {
               homeworkEvent = {
                 date: schedulingDay,
@@ -159,6 +164,9 @@ async function addAssignment(req) {
                 color: assignmentColor
               };
               homeworkEvents.push(homeworkEvent);
+
+              /* this makes sure that if you have a large block of free time
+                 you can have multiple homework events in that block */
               if (f != freeTimes.length-1) {
                 var additionalFreeTime = {
                   sTime: freeTimes[f].sTime+timeBlock+timeBlock,
@@ -178,6 +186,8 @@ async function addAssignment(req) {
                   freeTimes.push(additionalFreeTime);
                 }
               }
+
+              // Updating how much time still needs to be scheduled for assignment
               dailyMinLeft-=timeBlock;
               numMinsLeftTotal-=timeBlock;
               if (dailyMinLeft < timeBlock) {
@@ -190,13 +200,17 @@ async function addAssignment(req) {
     }
     numMinsLeftTotal = 0;
   }
+  // returns all of the homework events that need to be created
   return homeworkEvents;
 }
 
+// function to get all of the time between existing events
 function timeBetweenEvents(events) {
   var times = [];
   var wake = createTimeInMins(7, 0);
   var sleep = createTimeInMins(23, 59)
+
+  // if there are no events, it is the entire day from wake to sleep
   if (events.length === 0 ) {
     var freeTime = {
       sTime: wake,
@@ -205,6 +219,8 @@ function timeBetweenEvents(events) {
     }
     times.push(freeTime);
   }
+
+  // if there is only one event
   if (events.length === 1) {
     var freeTime = {
       sTime: wake,
@@ -219,6 +235,8 @@ function timeBetweenEvents(events) {
     }
     times.push(freeTime);
   }
+
+  // all other cases
     for (var i = 0; i < events.length-1; i++) {
       if (i === 0) {
         var freeTime = {
@@ -254,6 +272,7 @@ function timeBetweenEvents(events) {
   return times;
 }
 
+// gets the number of days between two dates
 function getNumDaysBetween(date1, date2) {
 
   //Get 1 day in milliseconds

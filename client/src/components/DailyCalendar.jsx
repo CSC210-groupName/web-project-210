@@ -113,9 +113,10 @@ class DailyCalendar extends React.Component {
         // Pulling all the events for the current day
         axios.post('/func/getevents', {
             date: this.state.currentDay
-        }).then(function(response) { //sorry this code is a huge mess
+        }).then(function(response) {
 
             console.log(response);
+            
             // Resets for each new /day page
             for (var hour = 0; hour < 24; hour++) {
                 for (var col = 1; col < 7; col++){
@@ -126,6 +127,8 @@ class DailyCalendar extends React.Component {
             }
 
             // Adding events, very complicated, please be careful with this code <3
+
+
             var eventsAdded = [];
             for (var j = 0; j < response.data.length; j++) {
                 var colNum = 1;
@@ -179,7 +182,6 @@ class DailyCalendar extends React.Component {
                 var eHourDisplay = eHour<10 ? ("0"+eHour) : eHour;
                 sHourDisplay = sHour<=12 ? (sHour) : sHour - 12;
                 eHourDisplay = eHour<=12 ? (eHour) : eHour - 12;
-
 
 
 
@@ -276,6 +278,7 @@ class DailyCalendar extends React.Component {
         return hour;// * 60 + min;
     }
 
+    // Checks if two events overlap (are in the same hour)
     checkTimeOverlap(event1, event2) {
         var sTime1 = this.createTime(event1.sTimeHour, event1.sTimeMinute);
         var sTime2 = this.createTime(event2.sTimeHour, event2.sTimeMinute);
