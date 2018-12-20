@@ -101,15 +101,8 @@ async function addAssignment(req) {
   while (numMinsLeftTotal > 0) {
     
     // for every day between the day added until the due date
-    for (var day = 0; day <= numDaysBetween; day++) {
-      if (day === numDaysBetween && numMinsLeftTotal > 0) {
-        day = 0;
-        restarted = true;
-        schedulingDay = schedulingDay - (numDaysBetween-1)*86400000;
-        continue;
-      } else if (day === numDaysBetween && numMinsLeftTotal <= 0) {
-        break;
-      }
+    for (var day = 0; day < numDaysBetween; day++) {
+
       schedulingDay = schedulingDay + 86400000; // this should get the current day
       // get all of the events occuring during that day
       await getEvents(req.user.id, schedulingDay).then((result) => {
@@ -141,7 +134,6 @@ async function addAssignment(req) {
           var freeTimes = freeTimeByDay[schedulingDay];
         }
         var f = 0;
-        //console.log(freeTimes);
         while (dailyMinLeft > 0) {
 
             /* these make it possible to schedule assignment events that are 
@@ -183,16 +175,6 @@ async function addAssignment(req) {
 
               /* this makes sure that if you have a large block of free time
                  you can have multiple homework events in that block */
-              // if (f != freeTimes.length-1) {
-              //   var additionalFreeTime = {
-              //     sTime: freeTimes[f].sTime+timeBlock+timeBlock,
-              //     eTime: freeTimes[f+1].sTime,
-              //     length: freeTimes[f+1].sTime-(freeTimes[f].sTime+timeBlock+timeBlock)
-              //   }
-              //   if (additionalFreeTime.length > 0) {
-              //     freeTimes.push(additionalFreeTime);
-              //   }
-              // } else {
                 var additionalFreeTime = {
                   sTime: freeTimes[f].sTime+timeBlock+timeBlock,
                   eTime: freeTimes[f].eTime,
@@ -213,7 +195,6 @@ async function addAssignment(req) {
               }
             }
             f++;
-          // }
       });
     }
     numMinsLeftTotal = 0;
