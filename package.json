@@ -8,7 +8,7 @@
     "npm": "6.4.1"
   },
   "scripts": {
-    "start": "pm2 start index.js -i 0",
+    "start": "pm2-runtime start ecosystem.config.js --env production",
     "dev": "concurrently \"npm run nodemon\" \"npm run start --prefix client\"",
     "nodemon": "pm2 start index.js -i 0",
     "test": "echo \"Error: no test specified\" && exit 1",
